@@ -28,7 +28,7 @@ isConnected() | Verifica se o pinpad está conectado com a SDK | Boolean
 connect() | Abre uma conexão socket com o pinpad selecionado | Boolean
 disconnect(message: String) | Encerra a conexão socket com o pinpad selecionado. É possível mandar uma mensagem que será exibida no visor do pinpad. | Boolean
 writeDisplayMessage(message: String) | Envia uma mensagem ao pinpad para ser exibida em seu visor. | Boolean
-getGinPinpadInformation() | Obtem todas as informações disponíveis pelo pinpad | PinpadDescription
+getPinpadInformation() | Obtem todas as informações disponíveis pelo pinpad | PinpadDescription
 getMobileDevice(context: Context) | Retorna as informações do aparelho celular necessárias para comunicação com a API | Pagg_MobileDevice
 getPaymentDevice() | Retorna as informações do pinpad necessárias para comunicação com a API | Pagg_PaymentDevice
 getCard(activity: Activity, credit: Boolean, value: Double, installments: Int, interface: ReadCardInterface?, callBack: PinpadServiceCallBack) | Realiza a leitura do cartão utilizando o pinpad. Uma descrição mais aprofundada sobre esse método é mostrada logo abaixo desta tabela. | Void
@@ -81,34 +81,34 @@ O método ```getCard()``` em ```PinpadService``` retorna o ```Pagg_Card``` que s
 Outros objetos como ```Pagg_PaymentDevice``` e ```Pagg_MobileDevice``` também podem ser obtidos por lá. 
 A SDK não disponibiliza um método que retorne as coordenadas geográficas do celular, cabe ao desenvolvedor construí-lo.
 
-```simulatePay(Pagg_Simulation, callBack: PaggcertoCallBack<Pagg_SimulationResult>)```
+```simulate(simulation: Pagg_Simulation, callBack: PaggcertoCallBack<Pagg_SimulationResult>)```
 [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/simular-pagamento-cartao)
 
-```sendReceipts(nsu: String, receipt: Pagg_SendReceipt, callBack: PaggcertoCallBack<Boolean>)```
+```sendReceipt(nsu: String, receipt: Pagg_SendReceipt, callBack: PaggcertoCallBack<Boolean>)```
 [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/enviar-comprovante)
 
-```payBankSlips(bankSlip: Pagg_BankSlipsPay, callBack: PaggcertoCallBack<Pagg_Payments>)```
+```bankSlipPay(bankSlip: Pagg_BankSlipsPay, callBack: PaggcertoCallBack<Pagg_Payments>)```
 [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/efetuar-pagamento-boleto)
 
-```replaceBankslips(number: String, bankSlip: Pagg_ReplaceBankSlips, callBack: PaggcertoCallBack<Pagg_Payment>)```
+```replaceBankslip(number: String, bankSlip: Pagg_ReplaceBankSlips, callBack: PaggcertoCallBack<Pagg_Payment>)```
 [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/substituir-boleto)
 
-```getBankSlipsPDF(paymentId: String, callBack: PaggcertoCallBack<ByteArray?>)```
+```pdfBankSlipPayment(paymentId: String, callBack: PaggcertoCallBack<ByteArray?>)```
 [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/gerar-pdf-do-boleto-pagamento)
 
-```registerSplit(splitter: Pagg_Splitter, callBack: PaggcertoCallBack<Pagg_Splitter>)```
+```createSplitter(splitter: Pagg_Splitter, callBack: PaggcertoCallBack<Pagg_Splitter>)```
 [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/cadastrar-recebedor)
 
-```updateSpliter(id: String, splitter: Pagg_Splitter, callBack: PaggcertoCallBack<Pagg_Splitter>)```
+```updateSplitter(id: String, splitter: Pagg_Splitter, callBack: PaggcertoCallBack<Pagg_Splitter>)```
 [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/atualizar-recebedor)
 
-```listSplitter(filterSplitter: Pagg_FilterSplitter, callBack: PaggcertoCallBack<Pagg_SplitterList>)```
+```splitters(filterSplitter: Pagg_FilterSplitter, callBack: PaggcertoCallBack<Pagg_SplitterList>)```
 [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/listar-recebedores%20)
 
-```getSplitter(id: String, callBack: PaggcertoCallBack<Pagg_Splitter>)```
+```splitter(id: String, callBack: PaggcertoCallBack<Pagg_Splitter>)```
 [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/pesquisar-recebedores%20)
 
-```finishPayment(paymentId: String, note: String, callBack: PaggcertoCallBack<Pagg_Payment>)```
+```finalizePayment(paymentId: String, note: String, callBack: PaggcertoCallBack<Pagg_Payment>)```
 [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/finalizar-pagamento)
 
 ```cancelPayment(paymentId: String, callBack: PaggcertoCallBack<Pagg_Payment>)```
@@ -120,29 +120,11 @@ A SDK não disponibiliza um método que retorne as coordenadas geográficas do c
 ```cancelBankSlip(number: String, cancelReason: String, callBack: PaggcertoCallBack<Pagg_Payment>)```
 [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/cancelar-boleto)
 
-```getPaymentDetail(paymentId: String, callBack: PaggcertoCallBack<Pagg_Payment>)```
+```findPayment(paymentId: String, callBack: PaggcertoCallBack<Pagg_Payment>)```
 [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/detalhes-pagamento)
 
-```getHistoryPayments(filterHistoryPayment: Pagg_FilterHistoryPayment, callBack: PaggcertoCallBack<Pagg_HistoryPayments>)```
+```payments(filterHistoryPayment: Pagg_FilterHistoryPayment, callBack: PaggcertoCallBack<Pagg_HistoryPayments>)```
 [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/consultar-pagamentos)
 
 ```balance(callBack: PaggcertoCallBack<Pagg_Balance>)```
 [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/consultar-saldo-de-repasse)
-
-```getHistoryTransfers(filterTransfer: Pagg_FilterTransfer, callBack: PaggcertoCallBack<Pagg_HistoryTransfer>)```
-[Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/historicos-do-repasse-do-titular)
-
-```getFutureTransfers(filterTransfer: Pagg_FilterTransfer, callBack: PaggcertoCallBack<Pagg_HistoryTransfer>)```
-[Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/listar-repasses-futuros)
-
-```anticipatedTransactions(filterTransaction: Pagg_FilterTransaction, callBack: PaggcertoCallBack<Pagg_AnticipableTransactions>)```
-[Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/lista-transacoes-antecipaveis)
-
-```newAnticipationRequest(transactionsToAnticipate: Pagg_TransactionsToAnticipate, callBack: PaggcertoCallBack<Pagg_Anticipation>)```
-[Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/solicitar-antecipacao)
-
-```anticipationTransactions(anticipationId: String, filterTransaction: Pagg_FilterTransaction, callBack: PaggcertoCallBack<Pagg_AnticipableTransactions>)```
-[Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/listar-transacoes-da-solicitacao)
-
-```historyAnticipation(filterAnticipation: Pagg_FilterAnticipation, callBack: PaggcertoCallBack<Pagg_AnticipationHistory>)```
-[Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/historico-de-solicitacoes-de-antecipacoes)
