@@ -7,7 +7,7 @@ A SDK da Paggcerto disponibiliza uma série de métodos para auxiliar o desenvol
 Para fazer pagamentos utilizando o pinpad é necessário realizar um conjunto de passos descritos no fluxograma abaixo:
 
 <p align="center">
-  <img width="460" height="300" src="http://blog.smlbrasil.com.br/wp-content/uploads/2017/07/fluxograma.png">
+  <img width="460" height="300" src="https://i.imgur.com/xm5xKZk.png">
 </p>
 
 Todo o fluxo de comunicação com o pinpad gira em torno da classe ```PinpadService```. 
@@ -28,9 +28,9 @@ isConnected() | Verifica se o pinpad está conectado com a SDK | Boolean
 connect() | Abre uma conexão socket com o pinpad selecionado | Boolean
 disconnect(message: String) | Encerra a conexão socket com o pinpad selecionado. É possível mandar uma mensagem que será exibida no visor do pinpad. | Boolean
 writeDisplayMessage(message: String) | Envia uma mensagem ao pinpad para ser exibida em seu visor. | Boolean
-funGetPinpadInformation() | Obtem todas as informações disponíveis pelo pinpad | PinpadDescription
+getGinPinpadInformation() | Obtem todas as informações disponíveis pelo pinpad | PinpadDescription
 getMobileDevice(context: Context) | Retorna as informações do aparelho celular necessárias para comunicação com a API | Pagg_MobileDevice
-getGinPaymentDevice() | Retorna as informações do pinpad necessárias para comunicação com a API | Pagg_PaymentDevice
+getPaymentDevice() | Retorna as informações do pinpad necessárias para comunicação com a API | Pagg_PaymentDevice
 getCard(activity: Activity, credit: Boolean, value: Double, installments: Int, interface: ReadCardInterface?, callBack: PinpadServiceCallBack) | Realiza a leitura do cartão utilizando o pinpad. Uma descrição mais aprofundada sobre esse método é mostrada logo abaixo desta tabela. | Void
 stopCardProccess() | Interrompe o processo de leitura realizado em getCard() | Void
 
