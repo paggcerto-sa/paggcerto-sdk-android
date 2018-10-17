@@ -1,6 +1,6 @@
-# PaggcertoSDK Beta 0.9
+# PaggcertoSDK 1.0.0
 
-A PaggcertoSDK Beta 0.9 foi criada para facilitar a integração de sua aplicação android com a API da Paggcerto. Essa SDK possui os principais métodos da API de pagamento, além disso, a SDK também disponibiliza diversos métodos de comunicação com os pinpads que a Paggcerto trabalha.
+A PaggcertoSDK foi criada para facilitar a integração de sua aplicação android com a API da Paggcerto. Essa SDK possui os principais métodos da API de pagamentos, além disso, a SDK também disponibiliza diversos métodos de comunicação com os pinpads que a Paggcerto trabalha.
 
 ## Pré-Requisitos
 
@@ -21,7 +21,7 @@ Faça o download da SDK clicando [aqui](#) e salve ela em ```.\app\libs```.
 
 No Build.Gradle de sua aplicação instancie a SDK da seguinte forma
 ```
-implementation(name: 'paggcertosdk-beta-0.9', ext: 'aar')
+implementation(name: 'paggcertosdk:latest.version', ext: 'aar')
 ```
 Já no Build.Gradle do projeto adicione
 ```
