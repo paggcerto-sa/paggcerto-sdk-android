@@ -81,22 +81,34 @@ O método ```getCard()``` em ```PinpadService``` retorna o ```Pagg_Card``` que s
 Outros objetos como ```Pagg_PaymentDevice``` e ```Pagg_MobileDevice``` também podem ser obtidos por lá. 
 A SDK não disponibiliza um método que retorne as coordenadas geográficas do celular, cabe ao desenvolvedor construí-lo.
 
+```createCard(card: Pagg_Card, callBack: PaggcertoCallBack<Pagg_Card>)```
+[Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/cadastrar-cartao)
+
+```cards(filterCards: Pagg_FilterCards, callBack: PaggcertoCallBack<Pagg_CardList>)```
+[Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/listar-cartoes)
+
+```findCard(idCard: String, callBack: PaggcertoCallBack<Pagg_Card>)```
+[Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/pesquisar-cartao)
+
+```removeCard(idCard: String, callBack: PaggcertoCallBack<Pagg_Card>)```
+[Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/remover-cartao)
+
 ```simulate(simulation: Pagg_Simulation, callBack: PaggcertoCallBack<Pagg_SimulationResult>)```
 [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/simular-pagamento-cartao)
 
-```sendReceipt(nsu: String, receipt: Pagg_SendReceipt, callBack: PaggcertoCallBack<Boolean>)```
+```sendReceipt(nsu: String, sendReceipt: Pagg_SendReceipt, callBack: PaggcertoCallBack<Boolean>)```
 [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/enviar-comprovante)
 
-```bankSlipPay(bankSlip: Pagg_BankSlipsPay, callBack: PaggcertoCallBack<Pagg_Payments>)```
+```bankSlipPay(bankSlipsPay: Pagg_BankSlipsPay, callBack: PaggcertoCallBack<Pagg_Payments>)```
 [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/efetuar-pagamento-boleto)
 
-```replaceBankslip(number: String, bankSlip: Pagg_ReplaceBankSlips, callBack: PaggcertoCallBack<Pagg_Payment>)```
+```replaceBankslip(number: String, replaceBankSlips: Pagg_ReplaceBankSlips, callBack: PaggcertoCallBack<Pagg_Payment>)```
 [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/substituir-boleto)
 
 ```pdfBankSlipPayment(paymentId: String, callBack: PaggcertoCallBack<ByteArray?>)```
 [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/gerar-pdf-do-boleto-pagamento)
 
-```createSplitter(splitter: Pagg_Splitter, callBack: PaggcertoCallBack<Pagg_Splitter>)```
+```registerSplitter(splitter: Pagg_Splitter, callBack: PaggcertoCallBack<Pagg_Splitter>)```
 [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/cadastrar-recebedor)
 
 ```updateSplitter(id: String, splitter: Pagg_Splitter, callBack: PaggcertoCallBack<Pagg_Splitter>)```
@@ -117,7 +129,7 @@ A SDK não disponibiliza um método que retorne as coordenadas geográficas do c
 ```cancelCardTransaction(nsu: String, callBack: PaggcertoCallBack<Pagg_Payment>)```
 [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/cancelar-transacao-cartao)
 
-```cancelBankSlip(number: String, cancelReason: String, callBack: PaggcertoCallBack<Pagg_Payment>)```
+```cancelBankSlip(number: String, cancellationReason: String, callBack: PaggcertoCallBack<Pagg_Payment>)```
 [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/cancelar-boleto)
 
 ```findPayment(paymentId: String, callBack: PaggcertoCallBack<Pagg_Payment>)```
