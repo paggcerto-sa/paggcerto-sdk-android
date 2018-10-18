@@ -90,7 +90,7 @@ A SDK não disponibiliza um método que retorne as coordenadas geográficas do c
 ```findCard(idCard: String, callBack: PaggcertoCallBack<Pagg_Card>)```
 [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/pesquisar-cartao)
 
-```removeCard(idCard: String, callBack: PaggcertoCallBack<Pagg_Card>)```
+```deleteCard(idCard: String, callBack: PaggcertoCallBack<Pagg_Card>)```
 [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/remover-cartao)
 
 ```simulate(simulation: Pagg_Simulation, callBack: PaggcertoCallBack<Pagg_SimulationResult>)```
@@ -108,7 +108,7 @@ A SDK não disponibiliza um método que retorne as coordenadas geográficas do c
 ```pdfBankSlipPayment(paymentId: String, callBack: PaggcertoCallBack<ByteArray?>)```
 [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/gerar-pdf-do-boleto-pagamento)
 
-```registerSplitter(splitter: Pagg_Splitter, callBack: PaggcertoCallBack<Pagg_Splitter>)```
+```createSplitter(splitter: Pagg_Splitter, callBack: PaggcertoCallBack<Pagg_Splitter>)```
 [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/cadastrar-recebedor)
 
 ```updateSplitter(id: String, splitter: Pagg_Splitter, callBack: PaggcertoCallBack<Pagg_Splitter>)```
@@ -117,7 +117,7 @@ A SDK não disponibiliza um método que retorne as coordenadas geográficas do c
 ```splitters(filterSplitter: Pagg_FilterSplitter, callBack: PaggcertoCallBack<Pagg_SplitterList>)```
 [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/listar-recebedores%20)
 
-```splitter(id: String, callBack: PaggcertoCallBack<Pagg_Splitter>)```
+```findSplitter(id: String, callBack: PaggcertoCallBack<Pagg_Splitter>)```
 [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/pesquisar-recebedores%20)
 
 ```finalizePayment(paymentId: String, note: String, callBack: PaggcertoCallBack<Pagg_Payment>)```
