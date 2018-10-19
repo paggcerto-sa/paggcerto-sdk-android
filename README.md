@@ -17,7 +17,7 @@ Para utilizar todos os recursos da SDK é necessário fazer alguns ajustes inici
 
 ### Instancie a SDK em sua aplicação
 
-Faça o download da SDK clicando [aqui](#) e salve ela em ```.\app\libs```.
+Faça o download da SDK clicando [aqui](https://github.com/paggcerto-sa/paggcerto-sdk-android/raw/master/paggcertosdk-1.0.0.aar) e salve ela em ```.\app\libs```.
 
 No Build.Gradle de sua aplicação instancie a SDK da seguinte forma
 ```
