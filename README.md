@@ -40,23 +40,22 @@ Carrega uma instancia da SDK com as configurações básicas na aplicação.
 Esse é um método estático que cria um objeto único que poderá ser usado em qualquer lugar da aplicação. 
 Ele é responsável por armazenar informações importantes que serão usadas pela API como token, bandeiras e serviços do pinpad.
 
-```token: Pagg_Token()```
+```activate(token: String, environment: Int, paggcertoSDKResponse: PaggcertoSDKResponse)```
 
-Após carregar uma instância da SDK, é necessário setar seu token de acesso. 
+Após carregar uma instância da SDK, é necessário ativá-la para informar seu token e em qual ambiente irá trabalhar. 
+
+No parâmetro ```token``` você irá setar seu token de acesso.
 Para saber como conseguir seu token clique [aqui](https://desenvolvedor.paggcerto.com.br/v2/account/).
 
-```activate(environment: String, paggcertoSDKResponse: PaggcertoSDKResponse)```
+No parâmetro ```environment``` você irá declarar o ambiente de trabalho. A SDK fornece constantes para acessar esses ambientes:
 
-Com o token setado, agora é hora de ativar a SDK para informar em qual ambiente irá trabalhar. 
-No parâmetro ```environment``` você irá declarar qual é esse ambiente. Duas opções estão disponíveis:
-
-* ```sandbox```: Esse ambiente permite o usuário trabalhar em sandbox.
-* ```production```: Esse ambiente permite o usuário trabalhar em produção.
+* ```SANDBOX```: Esse ambiente permite o usuário trabalhar em sandbox.
+* ```PRODUCTION```: Esse ambiente permite o usuário trabalhar em produção.
 
 ```PaggcertoSDKResponse``` é uma interface de retorno que irá informar se você conseguiu ativar a SDK com sucesso. 
-Ao implementar essa interface, um método ```onResult(result: Boolean)``` é criado. 
-Caso o parâmetro ```result``` seja verdadeiro, a conexão foi estabelecida e a SDK foi ativada com sucesso. 
-Lembrando que o token de acesso gerado em sandbox só irá funcionar no ambiente ```sandbox``` do mesmo modo um token gerado para o ambiente de produção só irá funcionar no ambiente ```production```.
+Ao implementar essa interface, um método ```onResult(result: Boolean, message: String)``` é criado. 
+Caso o parâmetro ```result``` seja verdadeiro, a conexão foi estabelecida e a SDK foi ativada com sucesso. Uma mensagem de retorno é enviar no campo ```message```.
+Lembrando que o token de acesso gerado em sandbox só irá funcionar no ambiente ```SANDBOX```, do mesmo modo um token gerado para o ambiente de produção só irá funcionar no ambiente ```PRODUCTION```.
 
 ```isActive(): Boolean```
 
@@ -70,23 +69,21 @@ Segue um exemplo de como fazer a configuração inicial da SDK
 
 ```
  PaggcertoSDK paggcertoSDK = PaggcertoSDK.Companion.getInstance();
-    
+
  @Override
  protected void onCreate(@Nullable Bundle savedInstanceState) {
      super.onCreate(savedInstanceState);
      setContentView(R.layout.activity_main);
 
-     Pagg_Token token = new Pagg_Token();
-     token.setToken("Meu Token");
-     paggcertoSDK.setToken(token);
-        
+     String token = "Meu Token";
+
      if(!paggcertoSDK.isActive()){
-         paggcertoSDK.activate("sandbox", new PaggcertoSDKResponse() {
+         paggcertoSDK.activate(token, PaggcertoSDK.SANDBOX, new PaggcertoSDKResponse() {
              @Override
-             public void onResult(boolean result) {
-                 print(result? "Conexão estabelecida" : "Falha ao se conectar com API");
+             public void onResult(boolean result, @NonNull String message) {
+                 print(message);
              }
-         });    
+         });
      }
- }
+  }
 ```
