@@ -44,25 +44,25 @@ A função deste método é retornar para o desenvolvedor as informações do ca
 A função de cada um dos parâmetros é descrita a seguir:
 
 <ul>
-  <li><code>Activity</code>: Esse parâmetro é passado para auxiliar o parâmetro readCardInterface a exercer sua função.</li>
-  <li><code>Credit</code> Esse parâmetro informa ao método se o cartão utilizado é crédito (true) ou débito (false)</li>
-  <li><code>Value</code> Quantia em dinheiro que o cartão irá processar. O número de parcelas não irá alterar este valor.</li>
-  <li><code>Installments</code> Número de parcelas do pagamento. Se <code>Credit</code> for false o número de parcelas sempre será 1.</li>
-  <li><code>ReadCardInterface</code> Uma interface que auxilia o desenvolvedor a atualizar informações na tela do celular enquanto o processo de leitura do cartão está acontecendo. Essa interface é acionada após o pinpad identificar o cartão inserido. Caso não queira utilizar esse recurso é possível passar null neste parâmetro.</li>
-  <li><code>PinpadServiceCallBack</code> Interface de retorno do processo de leitura. Essa interface possui dois métodos:
+  <li><code>Activity</code>: Esse parâmetro é passado para auxiliar o parâmetro <code>readCardInterface</code> a exercer sua função.</li>
+  <li><code>Credit</code>: Esse parâmetro informa ao método se o cartão utilizado é crédito (true) ou débito (false).</li>
+  <li><code>Value</code>: Quantia em dinheiro que o cartão irá processar. O número de parcelas não irá alterar este valor.</li>
+  <li><code>Installments</code>: Número de parcelas do pagamento. Se <code>Credit</code> for false o número de parcelas sempre será 1.</li>
+  <li><code>ReadCardInterface</code>: Uma interface que auxilia o desenvolvedor a atualizar informações na tela do celular enquanto o processo de leitura do cartão está acontecendo. Essa interface é acionada após o pinpad identificar o cartão inserido. Caso não queira utilizar esse recurso é possível passar <code>null</code> neste parâmetro.</li>
+  <li><code>PinpadServiceCallBack</code>: Interface de retorno do processo de leitura. Essa interface possui dois métodos:
     <ul>
-      <li><code>onSuccess</code> Caso o pinpad consiga processar a leitura do cartão, essa interface irá acionar esse método.
+      <li><code>onSuccess</code>: Caso o pinpad consiga processar a leitura do cartão, a interface irá acionar esse método.
         <ul>
-          <li><code>card</code> Objeto <code>Pagg_Card</code> com as informações necessárias do cartão para a API processar uma venda com pinpad;</li>
-          <li><code>online</code> Caso essa variável retorne true, é necessário continuar o processo como uma venda digitada e inserir o código de segurança do cartão em securityCode no objeto card descrito acima. Caso retorne false o cartão está pronto para ser processado pela API como uma venda com pinpad.</li>
+          <li><code>card</code>: Objeto <code>Pagg_Card</code> com as informações necessárias do cartão para a API processar uma venda com pinpad;</li>
+          <li><code>online</code>: Caso essa variável retorne true, é necessário continuar o processo como uma venda digitada e inserir o código de segurança do cartão em <code>securityCode</code> no objeto <code>Pagg_Card</code> descrito acima. Caso retorne false o cartão está pronto para ser processado pela API como uma venda com pinpad.</li>
         </ul>
       </li>
-      <li><code>onError</code> Esse método é acionado quando ocorre uma falha na leitura do cartão. A mensagem descrita no método informa o motivo da falha.</li>
+      <li><code>onError</code>: Esse método é acionado quando ocorre uma falha na leitura do cartão. A mensagem descrita no método informa o motivo da falha.</li>
     </ul>
   </li>
 </ul>
 
-Se a leitura for feita de forma correta o ```pinpadServiceCallBack``` irá retornar as informações do cartão necessárias para comunicação com a API. O envio dos dados do cartão será abordado na seção de Métodos de pagamento.
+Se a leitura for feita de forma correta, o ```pinpadServiceCallBack``` irá retornar as informações do cartão necessárias para comunicação com a API. O envio dos dados do cartão será abordado na seção de Métodos de pagamento.
 
 ## Métodos de pagamento
 
@@ -70,7 +70,7 @@ Essa seção irá abordar todos os métodos da SDK disponíveis para a API de pa
 
 Todos os métodos de pagamentos da SDK estão disponíveis na Classe ```PaymentNetwork```. 
 Eles trabalham de forma assíncrona, por isso é necessário instanciar a interface ```PaggcertoCallBack<T>``` sempre que for trabalhar com eles. 
-Para utilizar essa classe certifique-se que o seu token de acesso foi setado em ```PaggcertoSDK.getInstance().token```.
+Para utilizar essa classe certifique-se que a SDK foi ativada com o método ```PaggcertoSDK.getInstance().activate()```.
 
 ```payWithCard(pay: Pagg_Pay, callBack: PaggcertoCallBack<Pagg_Payment>)```
 [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/efetuar-pagamento-cartao)
