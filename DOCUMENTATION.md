@@ -64,6 +64,57 @@ A função de cada um dos parâmetros é descrita a seguir:
 
 Se a leitura for feita de forma correta, o ```pinpadServiceCallBack``` irá retornar as informações do cartão necessárias para comunicação com a API. O envio dos dados do cartão será abordado na seção de Métodos de pagamento.
 
+Lembre-se de desconectar o pinpad ao fim do processo.
+
+O trecho de código abaixo mostra como o processo é realizado.
+
+```
+final PinpadService pinpadService = Objects.requireNonNull(PaggcertoSDK.Companion.getInstance()).getPinpadService();
+try {
+	pinpadService.loadDevices();
+	pinpadService.setDevice(pinpadService.getListDevice().get(0));
+
+	if(pinpadService.connect()){
+		Activity activity = this;
+		boolean credit = true;
+		double value = 100.0;
+		int installments = 3;
+
+		ReadCardInterface readCardInterface = new ReadCardInterface() {
+			@Override
+			public void didReadCard() {
+
+			}
+		};
+
+		PinpadServiceCallBack pinpadServiceCallBack = new PinpadServiceCallBack() {
+			@Override
+			public void onSuccess(@NotNull Pagg_Card card, boolean online) {
+				/*TASK*/
+
+				pinpadService.disconnect("default message");
+			}
+
+			@Override
+			public void onError(@NotNull String message) {
+				/*TASK*/
+
+				pinpadService.disconnect("default message");
+			}
+		};
+
+		pinpadService.getCard(activity, credit, value, installments, readCardInterface, pinpadServiceCallBack);
+
+	}else {
+		Toast.makeText(getApplicationContext(), "Falha ao se conectar com o pinpad.", Toast.LENGTH_LONG).show();
+	}
+
+} catch (Exception e) {
+	Toast.makeText(getApplicationContext(), "Bluetooth desativado.", Toast.LENGTH_LONG).show();
+	e.printStackTrace();
+}
+```
+
 ## Métodos de pagamento
 
 Essa seção irá abordar todos os métodos da SDK disponíveis para a API de pagamentos. 
