@@ -2,7 +2,7 @@
 
 ## Pagamento com Pinpad
 
-A SDK da Paggcerto disponibiliza uma série de métodos para auxiliar o desenvolvedor a realizar pagementos utilizando um pinpad.
+A SDK da Paggcerto disponibiliza uma série de métodos para auxiliar o desenvolvedor a realizar pagamentos utilizando um pinpad.
 
 Para fazer pagamentos utilizando o pinpad é necessário realizar um conjunto de passos descritos no fluxograma abaixo:
 
