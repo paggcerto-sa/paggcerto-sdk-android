@@ -1,4 +1,4 @@
-# PaggcertoSDK 1.0.0
+# PaggcertoSDK 1.0.1
 
 A PaggcertoSDK foi criada para facilitar a integração de sua aplicação android com a API da Paggcerto. Esse SDK possui os principais métodos da API de pagamentos, além disso, o SDK também disponibiliza diversos métodos de comunicação com os pinpads que a Paggcerto trabalha.
 
@@ -17,7 +17,7 @@ Para utilizar todos os recursos do SDK é necessário fazer alguns ajustes inici
 
 ### Instancie o SDK em sua aplicação
 
-Faça o download do SDK clicando [aqui](https://github.com/paggcerto-sa/paggcerto-sdk-android/raw/master/paggcertosdk-1.0.0.aar) e salve ele em ```.\app\libs```.
+Faça o download do SDK clicando [aqui](https://github.com/paggcerto-sa/paggcerto-sdk-android/raw/master/paggcertosdk-1.0.1.aar) e salve ele em ```.\app\libs```.
 
 No ```build.bradle``` de sua aplicação instancie o SDK da seguinte forma
 ```
