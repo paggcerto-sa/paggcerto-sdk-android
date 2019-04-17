@@ -191,3 +191,25 @@ A SDK não disponibiliza um método que retorne as coordenadas geográficas do c
 
 ```balance(callBack: PaggcertoCallBack<Pagg_Balance>)```
 [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/consultar-saldo-de-repasse)
+
+```getTransfersSplitter(filterTransferSplitter: Pagg_FilterTransferSplitter, callBack: PaggcertoCallBack<Pagg_TransfersSplit>)```
+[Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/historico-de-repasses-do-split)
+
+##Métodos de cobrança
+
+Essa seção irá abordar todos os métodos da SDK disponíveis para a API de cobrança.
+
+De forma semelhante a API de pagamentos, os métodos dessa API estarão disponíveis na classe ```BillingNetwork```.
+Para utilizar essa classe certifique-se que a SDK foi ativada com o método ```PaggcertoSDK.getInstance().activate()```.
+
+```createBilling(billingRequest: Pagg_BillingRequest, callBack: PaggcertoCallBack<Pagg_BillingResponse>)```
+[Detalhes](https://desenvolvedor.paggcerto.com.br/v2/billing/#operation/gerar-cobranca)
+
+```listBillings(filterBilling: Pagg_FilterBilling, callBack: PaggcertoCallBack<Pagg_BillingsResponse>)```
+[Detalhes](https://desenvolvedor.paggcerto.com.br/v2/billing/#operation/listar-cobrancas)
+
+```getBilling(idBilling: String, callBack: PaggcertoCallBack<Pagg_BillingResponse>)```
+[Detalhes](https://desenvolvedor.paggcerto.com.br/v2/billing/#operation/pesquisar-cobranca)
+
+```cancelBilling(idBilling: String, callBack: PaggcertoCallBack<Boolean>)```
+[Detalhes](https://desenvolvedor.paggcerto.com.br/v2/billing/#operation/cancelar-cobranca)
