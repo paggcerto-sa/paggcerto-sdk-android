@@ -195,7 +195,7 @@ A SDK não disponibiliza um método que retorne as coordenadas geográficas do c
 ```getTransfersSplitter(filterTransferSplitter: Pagg_FilterTransferSplitter, callBack: PaggcertoCallBack<Pagg_TransfersSplit>)```
 [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/historico-de-repasses-do-split)
 
-##Métodos de cobrança
+## Métodos de cobrança
 
 Essa seção irá abordar todos os métodos da SDK disponíveis para a API de cobrança.
 
