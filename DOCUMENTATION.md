@@ -203,13 +203,13 @@ De forma semelhante a API de pagamentos, os métodos dessa API estarão disponí
 Para utilizar essa classe certifique-se que a SDK foi ativada com o método ```PaggcertoSDK.getInstance().activate()```.
 
 ```createBilling(billingRequest: Pagg_BillingRequest, callBack: PaggcertoCallBack<Pagg_BillingResponse>)```
-[Detalhes](https://desenvolvedor.paggcerto.com.br/v2/billing/#operation/gerar-cobranca)
+[Detalhes](https://desenvolvedor.paggcerto.com.br/v1/billing/#operation/gerar-cobranca)
 
 ```listBillings(filterBilling: Pagg_FilterBilling, callBack: PaggcertoCallBack<Pagg_BillingsResponse>)```
-[Detalhes](https://desenvolvedor.paggcerto.com.br/v2/billing/#operation/listar-cobrancas)
+[Detalhes](https://desenvolvedor.paggcerto.com.br/v1/billing/#operation/listar-cobrancas)
 
 ```getBilling(idBilling: String, callBack: PaggcertoCallBack<Pagg_BillingResponse>)```
-[Detalhes](https://desenvolvedor.paggcerto.com.br/v2/billing/#operation/pesquisar-cobranca)
+[Detalhes](https://desenvolvedor.paggcerto.com.br/v1/billing/#operation/pesquisar-cobranca)
 
 ```cancelBilling(idBilling: String, callBack: PaggcertoCallBack<Boolean>)```
-[Detalhes](https://desenvolvedor.paggcerto.com.br/v2/billing/#operation/cancelar-cobranca)
+[Detalhes](https://desenvolvedor.paggcerto.com.br/v1/billing/#operation/cancelar-cobranca)
