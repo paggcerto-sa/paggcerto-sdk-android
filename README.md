@@ -1,89 +1,64 @@
-# PaggcertoSDK 1.1.0
+[![](https://jitpack.io/v/paggcerto-sa/paggcerto-sdk-android.svg)](https://jitpack.io/#paggcerto-sa/paggcerto-sdk-android)
 
-A PaggcertoSDK foi criada para facilitar a integração de sua aplicação android com a API da Paggcerto. Esse SDK possui os principais métodos da API de pagamentos e cobrança, além disso, o SDK também disponibiliza diversos métodos de comunicação com os pinpads que a Paggcerto trabalha.
+# PagcertoSDK
+A PagcertoSDK foi criada para facilitar a integração de sua aplicação android com a API da Pagcerto. Esse SDK possui todos os métodos das API's da Pagcerto, além disso, o SDK também disponibiliza diversos métodos de comunicação com os pinpads que a Pagcerto trabalha.
 
 ## Pré-Requisitos
-
 Android 5.0 ou superior.
-Instancie as seguintes dependências:
-```
-implementation 'com.squareup.retrofit2:converter-gson:latest.version'
-implementation 'com.squareup.retrofit2:converter-scalars:latest.version'
-```
 
 ## Integrando o SDK na aplicação
-
 Para utilizar todos os recursos do SDK é necessário fazer alguns ajustes iniciais em sua aplicação.
 
 ### Instancie o SDK em sua aplicação
-
-Faça o download do SDK clicando [aqui](https://github.com/paggcerto-sa/paggcerto-sdk-android/raw/master/paggcertosdk-1.0.2.aar) e salve ele em ```.\app\libs```.
-
 No ```build.bradle``` de sua aplicação instancie o SDK da seguinte forma
 ```
-implementation(name: 'paggcertosdk-latest_version', ext: 'aar')
+dependencies {
+    implementation 'com.github.paggcerto-sa:paggcerto-sdk-android:latest_version'
+}
 ```
 Já no ```build.gradle``` do projeto adicione
 ```
-repositories {
-   flatDir {
-       dirs 'libs'
-   }
+allprojects {
+	repositories {
+		...
+		maven { url 'https://jitpack.io' }
+	}
 }
 ```
 
 ### Utilizando o SDK em sua aplicação
 
-```PaggcertoSDK.getInstance()```
+#### PagcertoSDK
+PagcertoSDK é um singleton que possui as configurações básicas que serão utilizadas no SDK.
+Ele é responsável por armazenar informações importantes que serão usadas pela API como token, ambiente de desenvolvimento e serviços do pinpad.
 
-Carrega uma instancia do SDK com as configurações básicas na aplicação. 
-Esse é um método estático que cria um objeto único que poderá ser usado em qualquer lugar da aplicação. 
-Ele é responsável por armazenar informações importantes que serão usadas pela API como token, bandeiras e serviços do pinpad.
-
-```activate(token: String, environment: Int, paggcertoSDKResponse: PaggcertoSDKResponse)```
-
-Após carregar uma instância do SDK, é necessário ativá-lo informando seu token e em qual ambiente irá trabalhar. 
-
-No parâmetro ```token``` você irá setar seu token de acesso.
-Para saber como conseguir seu token clique [aqui](https://desenvolvedor.paggcerto.com.br/v2/account/).
-
-No parâmetro ```environment``` você irá declarar o ambiente de trabalho. O SDK fornece constantes para acessar esses ambientes:
+A primeira coisa a se fazer com o SDK é informar o ambiente de trabalho, para fazer isso basta dizer qual ambiente quer trabalhar em `PagcertoSDK.environment`.
+O SDK fornece constantes para acessar esses ambientes:
 
 * ```SANDBOX```: Esse ambiente permite o usuário trabalhar em sandbox.
 * ```PRODUCTION```: Esse ambiente permite o usuário trabalhar em produção.
 
-```PaggcertoSDKResponse``` é uma interface de retorno que irá informar se você conseguiu ativar o SDK com sucesso. 
-Ao implementar essa interface, um método ```onResult(result: Boolean, message: String)``` é criado. 
-Caso o parâmetro ```result``` seja verdadeiro, a conexão foi estabelecida e o SDK foi ativado com sucesso. Uma mensagem de retorno é enviada no campo ```message```.
-Lembrando que o token de acesso gerado em sandbox só irá funcionar no ambiente ```SANDBOX```, do mesmo modo um token gerado para o ambiente de produção só irá funcionar no ambiente ```PRODUCTION```.
+Após dizer qual ambiente irá trabalhar, é necessário informar o token de acesso em `PagcertoSDK.token`. 
+Para saber como conseguir seu token clique [aqui](https://desenvolvedor.paggcerto.com.br/v2/account/).
 
-```isActive(): Boolean```
-
-Retorna verdadeiro caso o SDK tenha sido ativado. 
-Como o SDK só preciso ser ativado uma vez na aplicação, esse método auxilia o desenvolvedor a evitar múltiplas ativações.
-
+#### PinpadService
+PinpadService é o objeto responsável por fazer a gestão entre aplicativo e pinpad. PagcertoSDK possui uma instância desse objeto. Para usar esse recurso você precisa habilitá-lo usando o método `PagcertoSDK.enablePinpadService`. Como se trata de um método assíncrono, é necessário aguardar a resposta através da interface `PagcertoSDKResponse`.
+O método `PagcertoSDK.isEnablePinpadService` retorna `true` caso tenha havido sucesso na ativação do PinpadService.
 
 ### Exemplo
 
 Segue um exemplo de como fazer a configuração inicial do SDK
 
-```
- PaggcertoSDK paggcertoSDK = PaggcertoSDK.Companion.getInstance();
+```Kotlin
+@Test
+fun activate(){
+    PagcertoSDK.environment = Environment.SANDBOX
+    PagcertoSDK.token = "token"
 
- @Override
- protected void onCreate(@Nullable Bundle savedInstanceState) {
-     super.onCreate(savedInstanceState);
-     setContentView(R.layout.activity_main);
-
-     String token = "Meu Token";
-
-     if(!paggcertoSDK.isActive()){
-         paggcertoSDK.activate(token, PaggcertoSDK.SANDBOX, new PaggcertoSDKResponse() {
-             @Override
-             public void onResult(boolean result, @NonNull String message) {
-                 print(message);
-             }
-         });
-     }
-  }
+    PagcertoSDK.enablePinpadService(context, object : PagcertoSDKResponse{
+        override fun onResult(result: Boolean, message: String) {
+            Assert.assertEquals(true, PagcertoSDK.isEnablePinpadService())
+        }
+    })
+}
 ```
