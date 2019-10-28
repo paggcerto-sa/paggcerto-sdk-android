@@ -20,11 +20,12 @@ import br.com.paggcerto.pagcertosdk.communication.CommandWriter
 import br.com.paggcerto.pagcertosdk.model.support.PinpadDescription
 import br.com.paggcerto.pagcertosdk.model.support.PinpadObject
 import br.com.paggcerto.pagcertosdk.ReadCardInterface
+import br.com.paggcerto.pagcertosdk.model.payments.response.Bin
 import br.com.paggcerto.pagcertosdk.model.payments.response.MobileDevice
 import br.com.paggcerto.pagcertosdk.model.payments.response.PaymentDevice
 import java.lang.RuntimeException
 
-class PinpadService{
+class PinpadService(val listBins: List<Bin>){
 
     private var bluetoothAdapter: BluetoothAdapter? = null
 

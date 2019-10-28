@@ -3,7 +3,6 @@ package br.com.paggcerto.pagcertosdk
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import br.com.paggcerto.pagcertosdk.model.account.response.Token
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -24,12 +23,12 @@ class InstrumentedTest {
     fun activateTest(){
         val signal = CountDownLatch(1)
         PagcertoSDK.environment = Environment.HOMOL
-        PagcertoSDK.token = Token("token")
+        PagcertoSDK.token = "token"
 
-        PagcertoSDK.activate(context, object : PagcertoSDKResponse{
+        PagcertoSDK.enablePinpadService(context, object : PagcertoSDKResponse{
             override fun onResult(result: Boolean, message: String) {
                 signal.countDown()
-                Assert.assertEquals(true, PagcertoSDK.isActive())
+                Assert.assertEquals(true, PagcertoSDK.isEnablePinpadService())
             }
         })
 

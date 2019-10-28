@@ -2,6 +2,7 @@ package br.com.paggcerto.pagcertosdk.rest.payment
 
 import br.com.paggcerto.pagcertosdk.PagcertoCallBack
 import br.com.paggcerto.pagcertosdk.PagcertoSDK
+import br.com.paggcerto.pagcertosdk.model.account.response.Token
 import br.com.paggcerto.pagcertosdk.model.payments.request.*
 import br.com.paggcerto.pagcertosdk.model.payments.response.*
 import br.com.paggcerto.pagcertosdk.rest.payment.client.PaymentClient
@@ -22,7 +23,7 @@ import retrofit2.Response
 import java.util.HashMap
 
 class PaymentNetwork  {
-    private val appService = PaymentClient.getClient(PagcertoSDK.token)
+    private val appService = PaymentClient.getClient(Token(PagcertoSDK.token))
 
     private val connectionError = "Não foi possível conectar ao servidor Paggcerto. Tente novamente."
 
@@ -836,7 +837,7 @@ class PaymentNetwork  {
         val json = JSONUtils.removeArrays(JSONObject(gson.toJson(filterStatement))).toString()
         val retMap = gson.fromJson<Map<String, String>>( json, object : TypeToken<HashMap<String, String>>() {}.type )
 
-        val appService = PaymentV3Client.getClient(PagcertoSDK.token)
+        val appService = PaymentV3Client.getClient(Token(PagcertoSDK.token))
         val call: Call<String> = appService.create(PaymentV3Service::class.java).transactions(retMap)
         call.enqueue(object: Callback<String>{
             override fun onResponse(call: Call<String>, response: Response<String>) {

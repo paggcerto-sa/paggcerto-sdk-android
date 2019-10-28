@@ -2,7 +2,6 @@ package br.com.paggcerto.pagcertosdk
 
 import android.content.Context
 import androidx.room.Room
-import br.com.paggcerto.pagcertosdk.model.account.response.Token
 import br.com.paggcerto.pagcertosdk.model.dao.database.AppDatabase
 import br.com.paggcerto.pagcertosdk.model.payments.response.Bin
 import br.com.paggcerto.pagcertosdk.rest.payment.PaymentNetwork
@@ -11,9 +10,8 @@ import br.com.paggcerto.pagcertosdk.util.Util
 
 object PagcertoSDK{
 
-    var token: Token? = null
-    val pinpadService = PinpadService()
-    val listBins = ArrayList<Bin>()
+    var token: String = ""
+    lateinit var pinpadService: PinpadService
 
     var environment: Environment? = null
     set(value) {
@@ -31,7 +29,7 @@ object PagcertoSDK{
         Util.updateEnvironment(environmentStr, protocol)
     }
 
-    fun activate(context: Context, pagcertoSDKResponse: PagcertoSDKResponse){
+    fun enablePinpadService(context: Context, pagcertoSDKResponse: PagcertoSDKResponse){
 
         val db = Room.databaseBuilder(context, AppDatabase::class.java, "bins")
             .allowMainThreadQueries()
@@ -50,15 +48,12 @@ object PagcertoSDK{
                             emvSupported = item.emvSupported,
                             maximumInstallment = item.maximumInstallment.toInt()))
                     }
-                    listBins.clear()
-                    listBins.addAll(obj)
+                    pinpadService = PinpadService(obj)
                     db.close()
-
                     pagcertoSDKResponse.onResult(true, "PagcertoSDK ativa.")
                 }
 
                 override fun onError(code: Int, message: String) {
-                    token = null
                     pagcertoSDKResponse.onResult(false, message)
                 }
             })
@@ -70,13 +65,11 @@ object PagcertoSDK{
                 emvSupported = item.emvSupported,
                 maximumInstallment = item.maximumInstallment
             ) }
-            listBins.clear()
-            listBins.addAll(bins)
+            pinpadService = PinpadService(bins)
             db.close()
+            pagcertoSDKResponse.onResult(true, "PagcertoSDK ativa.")
         }
     }
 
-    fun isActive(): Boolean{
-        return listBins.size > 0
-    }
+    fun isEnablePinpadService(): Boolean = ::pinpadService.isInitialized
 }

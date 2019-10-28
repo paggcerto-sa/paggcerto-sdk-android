@@ -2,6 +2,7 @@ package br.com.paggcerto.pagcertosdk.rest.billing
 
 import br.com.paggcerto.pagcertosdk.PagcertoCallBack
 import br.com.paggcerto.pagcertosdk.PagcertoSDK
+import br.com.paggcerto.pagcertosdk.model.account.response.Token
 import br.com.paggcerto.pagcertosdk.model.billing.request.BillingRequest
 import br.com.paggcerto.pagcertosdk.model.billing.request.FilterBilling
 import br.com.paggcerto.pagcertosdk.model.billing.response.Billing
@@ -18,7 +19,7 @@ import retrofit2.Response
 import java.util.HashMap
 
 class BillingNetwork {
-    private val appService = BillingClient.getClient(PagcertoSDK.token)
+    private val appService = BillingClient.getClient(Token(PagcertoSDK.token))
 
     private val connectionError = "Não foi possível conectar ao servidor Paggcerto. Tente novamente."
 

@@ -199,7 +199,9 @@ internal class PinpadConnectionProvider (
     }
 
     private fun findBin(commandRequestGcr: CommandRequestGcr, cardNumber: String): Bin? {
-        val listBins = PagcertoSDK.listBins
+        if(!PagcertoSDK.isEnablePinpadService()) return null
+
+        val listBins = PagcertoSDK.pinpadService.listBins
 
         listBins.forEach { bin ->
             val p = Pattern.compile(bin.regex)

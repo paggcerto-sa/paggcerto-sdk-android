@@ -2,6 +2,7 @@ package br.com.paggcerto.pagcertosdk.rest.recurring
 
 import br.com.paggcerto.pagcertosdk.PagcertoCallBack
 import br.com.paggcerto.pagcertosdk.PagcertoSDK
+import br.com.paggcerto.pagcertosdk.model.account.response.Token
 import br.com.paggcerto.pagcertosdk.model.recurring.RecurringSetting
 import br.com.paggcerto.pagcertosdk.model.recurring.request.Addendums
 import br.com.paggcerto.pagcertosdk.model.recurring.request.ContractRequest
@@ -23,7 +24,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class RecurringNetwork {
-    private val appService = RecurringClient.getClient(PagcertoSDK.token)
+    private val appService = RecurringClient.getClient(Token(PagcertoSDK.token))
 
     private val connectionError = "Não foi possível conectar ao servidor Paggcerto. Tente novamente."
 

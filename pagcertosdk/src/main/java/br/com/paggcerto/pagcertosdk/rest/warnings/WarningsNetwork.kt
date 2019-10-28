@@ -2,6 +2,7 @@ package br.com.paggcerto.pagcertosdk.rest.warnings
 
 import br.com.paggcerto.pagcertosdk.PagcertoCallBack
 import br.com.paggcerto.pagcertosdk.PagcertoSDK
+import br.com.paggcerto.pagcertosdk.model.account.response.Token
 import br.com.paggcerto.pagcertosdk.model.warnings.request.*
 import br.com.paggcerto.pagcertosdk.model.warnings.response.*
 import br.com.paggcerto.pagcertosdk.util.JSONUtils
@@ -16,7 +17,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class WarningsNetwork {
-    private val appService = WarningsClient.getClient(PagcertoSDK.token)
+    private val appService = WarningsClient.getClient(Token(PagcertoSDK.token))
 
     private val connectionError = "Não foi possível conectar ao servidor Paggcerto. Tente novamente."
 
