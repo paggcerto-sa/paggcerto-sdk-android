@@ -2,7 +2,7 @@
 
 ## Pagamento com Pinpad
 
-A SDK da Paggcerto disponibiliza uma série de métodos para auxiliar o desenvolvedor a realizar pagamentos utilizando um pinpad.
+A SDK da Pagcerto disponibiliza uma série de métodos para auxiliar o desenvolvedor a realizar pagamentos utilizando um pinpad.
 
 Para fazer pagamentos utilizando o pinpad é necessário realizar um conjunto de passos descritos no fluxograma abaixo:
 
@@ -11,8 +11,7 @@ Para fazer pagamentos utilizando o pinpad é necessário realizar um conjunto de
 </p>
 
 Todo o fluxo de comunicação com o pinpad gira em torno da classe ```PinpadService```. 
-Uma vez que você instancia a SDK através de ```PaggcertoSDK.getInstance()```, você ganha uma referência a um objeto ```PinpadService```. 
-Você irá utilizar esta referência para se comunicar com seu pinpad.
+Você tem acesso a uma instância dessa classe em ```PagcertoSDK.pinpadService```. Lembrando que para usar essa instância você precisa habilitá-la primeiro. O exempo para fazer isso é mostrado [aqui](https://github.com/paggcerto-sa/paggcerto-sdk-android#exemplo).
 
 A tabela abaixo lista os métodos dispostos na classe ```PinpadService```
 
@@ -29,8 +28,8 @@ connect() | Abre uma conexão socket com o pinpad selecionado | Boolean
 disconnect(message: String) | Encerra a conexão socket com o pinpad selecionado. É possível mandar uma mensagem que será exibida no visor do pinpad. | Boolean
 writeDisplayMessage(message: String) | Envia uma mensagem ao pinpad para ser exibida em seu visor. | Boolean
 getPinpadInformation() | Obtem todas as informações disponíveis pelo pinpad | PinpadDescription
-getMobileDevice(context: Context) | Retorna as informações do aparelho celular necessárias para comunicação com a API | Pagg_MobileDevice
-getPaymentDevice() | Retorna as informações do pinpad necessárias para comunicação com a API | Pagg_PaymentDevice
+getMobileDevice(context: Context) | Retorna as informações do aparelho celular necessárias para comunicação com a API | MobileDevice
+getPaymentDevice() | Retorna as informações do pinpad necessárias para comunicação com a API | PaymentDevice
 getCard(activity: Activity, credit: Boolean, value: Double, installments: Int, interface: ReadCardInterface?, callBack: PinpadServiceCallBack) | Realiza a leitura do cartão utilizando o pinpad. Uma descrição mais aprofundada sobre esse método é mostrada logo abaixo desta tabela. | Void
 stopCardProccess() | Interrompe o processo de leitura realizado em getCard() | Void
 
@@ -53,8 +52,8 @@ A função de cada um dos parâmetros é descrita a seguir:
     <ul>
       <li><code>onSuccess</code>: Caso o pinpad consiga processar a leitura do cartão, a interface irá acionar esse método.
         <ul>
-          <li><code>card</code>: Objeto <code>Pagg_Card</code> com as informações necessárias do cartão para a API processar uma venda com pinpad;</li>
-          <li><code>online</code>: Caso essa variável retorne true, é necessário continuar o processo como uma venda digitada e inserir o código de segurança do cartão em <code>securityCode</code> no objeto <code>Pagg_Card</code> descrito acima. Caso retorne false o cartão está pronto para ser processado pela API como uma venda com pinpad.</li>
+          <li><code>card</code>: Objeto <code>PayCard</code> com as informações necessárias do cartão para a API processar uma venda com pinpad;</li>
+          <li><code>online</code>: Caso essa variável retorne true, é necessário continuar o processo como uma venda digitada e inserir o código de segurança do cartão em <code>securityCode</code> no objeto <code>PayCard</code> descrito acima. Caso retorne false o cartão está pronto para ser processado pela API como uma venda com pinpad.</li>
         </ul>
       </li>
       <li><code>onError</code>: Esse método é acionado quando ocorre uma falha na leitura do cartão. A mensagem descrita no método informa o motivo da falha.</li>
@@ -69,51 +68,119 @@ Lembre-se de desconectar o pinpad ao fim do processo.
 O trecho de código abaixo mostra como o processo é realizado.
 
 ```
-final PinpadService pinpadService = Objects.requireNonNull(PaggcertoSDK.Companion.getInstance()).getPinpadService();
-try {
-	pinpadService.loadDevices();
-	pinpadService.setDevice(pinpadService.getListDevice().get(0));
+@Test
+fun cardTransaction(){
+    if(PagcertoSDK.isEnablePinpadService()){
+        val pinpadService = PagcertoSDK.pinpadService
+        try{
+            pinpadService.loadDevices()
+            pinpadService.device = pinpadService.listDevice[0]
+            if(pinpadService.connect()){
+                val activity = context as AppCompatActivity
+                val credit = true
+                val value = 100.0
+                val instalment = 3
 
-	if(pinpadService.connect()){
-		Activity activity = this;
-		boolean credit = true;
-		double value = 100.0;
-		int installments = 3;
+                val readCardInterface = object : ReadCardInterface{
+                    override fun didReadCard() {/*TASK*/}
+                }
 
-		ReadCardInterface readCardInterface = new ReadCardInterface() {
-			@Override
-			public void didReadCard() {
+                val pinpadServiceCallBack = object : PinpadServiceCallBack{
+                    override fun onSuccess(card: PayCard, online: Boolean) {/*TASK*/}
+                    override fun onError(message: String) {/*TASK*/}
+                }
 
-			}
-		};
-
-		PinpadServiceCallBack pinpadServiceCallBack = new PinpadServiceCallBack() {
-			@Override
-			public void onSuccess(@NotNull Pagg_Card card, boolean online) {
-				/*TASK*/
-
-				pinpadService.disconnect("default message");
-			}
-
-			@Override
-			public void onError(@NotNull String message) {
-				/*TASK*/
-
-				pinpadService.disconnect("default message");
-			}
-		};
-
-		pinpadService.getCard(activity, credit, value, installments, readCardInterface, pinpadServiceCallBack);
-
-	}else {
-		Toast.makeText(getApplicationContext(), "Falha ao se conectar com o pinpad.", Toast.LENGTH_LONG).show();
-	}
-
-} catch (Exception e) {
-	Toast.makeText(getApplicationContext(), "Bluetooth desativado.", Toast.LENGTH_LONG).show();
-	e.printStackTrace();
+                pinpadService.getCard(
+                    activity,
+                    credit,
+                    value, 
+                    instalment, 
+                    readCardInterface, 
+                    pinpadServiceCallBack
+                )
+            }else{
+                println("Pinpad connection failed.")
+            }
+        }catch (ex: Exception){
+            println("Bluetooth disabled.")
+        }
+    }else{
+        println("PinpadService disabled.")
+    }
 }
 ```
+## Rest API
+Além da gestão de pinpads, o SDK da Pagcerto oferece suporte a comunicação com diversas API's da Pagcerto:
+- Account
+- Billing
+- Payment
+- Payment Account
+- Recurring
+
+Todas as requisições feitas nas API's são realizadas de forma assíncrona, por isso é necessário instanciar a interface ```PagcertoCallBack<T>``` sempre que for trabalhar com eles.
+Vale ressaltar que só será possível realizar solicitações nas API's caso o usuário tenha especificado o ambiente de desenvolvimento e token em ```PagcertoSDK```.
+
+## Account API
+
+Essa seção irá abordar os métodos do SDK disponíveis na API de account. A classe ```AccountNetwork``` é responsável por disponibilizar estes métodos.
+
+### Criar conta
+```createAccount(applicationId: String, createAccountRequest: CreateAccountRequest, callBack: PagcertoCallBack<CreateAccountResponse>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/account/#operation/conta-titular)
+### Autenticar com credenciais
+```signin(applicationId: String, loginForm: LoginForm, callBack: PagcertoCallBack<Token>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/account/#operation/autenticar-com-credenciais)
+### Autenticar com hash
+```authHash(applicationId: String, hash: String, callBack: PagcertoCallBack<Token>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/account/#operation/autenticar-com-hash)
+### Criar nova senha
+```createNewPassword(password: String, callBack: PagcertoCallBack<Token>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/account/#operation/criar-nova-senha)
+### Alterar senha
+```updatePassword(oldPassword: String, newPassword: String, callBack: PagcertoCallBack<Token>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/account/#operation/alterar-senha)
+### Recuperar senha
+```sendRecoveryEmail(applicationId: String, recoveryEmail: RecoveryEmail, callBack: PagcertoCallBack<Boolean>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/account/#operation/recuperar-senha)
+### Consultar bancos
+```banks(callBack: PagcertoCallBack<BanksList>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/account/#operation/consultar-bancos)
+### Consultar tipo de empresa
+```businessType(callBack: PagcertoCallBack<BusinessTypesList>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/account/#operation/consultar-tipo-de-empresa)
+### Consultar cidades
+```cities(uf: String, callBack: PagcertoCallBack<CitiesList>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/account/#operation/consultar-cidades)
+### Consultar ramo de atividade
+```businessActivities(callBack: PagcertoCallBack<BusinessActivitiesList>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/account/#operation/consultar-ramo-de-atividade)
+### Consultar medias de marketing
+```marketingMedias(callBack: PagcertoCallBack<MarketingMediasList>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/account/#operation/consultar-media-de-marketing)
+
+### Identificar usuário
+```identify(callBack: PagcertoCallBack<UserWhoAmI>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/account/#operation/identificar-usuario)
+### Obter configurações da conta
+```presets(callBack: PagcertoCallBack<PresetsResponse>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/account/#operation/obter-configuracoes)
+### Alterar plano dos titulares do parceiro
+```updatePresets(presetsRequest: PresetsRequest, callBack: PagcertoCallBack<Boolean>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/account/#operation/alterar-plano-dos-titulares-do-parceiro)
+### Enviar Selfie
+```sendSelfie(documentSelfie: Bitmap, callBack: PagcertoCallBack<Boolean>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/account/#operation/enviar-selfie)
+### Anexar frente do documento
+```sendDocumentFront(documentFront: Bitmap, callBack: PagcertoCallBack<Boolean>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/account/#operation/anexar-frente-do-documento)
+### Anexar verso do documento
+```sendDocumentBack(documentBack: Bitmap, callBack: PagcertoCallBack<Boolean>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/account/#operation/anexar-verso-do-documento)
+### Criar perfil
+```createProfile(name: String, callBack: PagcertoCallBack<ProfileResponse>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/account/#operation/criar-perfil)
+### Atualizar perfil
+```updateProfile(idProfile: String, profileRequest: ProfileRequest, callBack: PagcertoCallBack<ProfileResponse>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/account/#operation/atualizar-perfil)
+### Listar perfis
+```listProfiles(filterProfile: FilterProfile, callBack: PagcertoCallBack<ProfilesResponseList>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/account/#operation/listar-perfis)
+### Pesquisar perfil
+```searchProfile(idProfile: String, callBack: PagcertoCallBack<ProfileResponse>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/account/#operation/pesquisar-perfil)
+### Desativar perfil
+```disableProfile(idProfile: String, callBack: PagcertoCallBack<ProfileResponse>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/account/#operation/desativar-perfil)
+### Ativar perfil
+```enableProfile(idProfile: String, callBack: PagcertoCallBack<ProfileResponse>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/account/#operation/ativar-perfil)
+### Remover perfil
+```enableProfile(idProfile: String, callBack: PagcertoCallBack<ProfileResponse>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/account/#operation/remover-perfil)
+### Conceder permissões
+```grantPermission(roleId: String, scopesList: ScopesList, callBack: PagcertoCallBack<Boolean>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/account/#operation/conceder-permissoes)
+### Revogar permissões
+```revokePermission(roleId: String, scopesList: ScopesList, callBack: PagcertoCallBack<Boolean>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/account/#operation/revogar-permissoes)
+### Alterar plano dos titulares do parceiro
+```updatePartnerClients(partnerClientRequest: PartnerClientRequest, callBack: PagcertoCallBack<Boolean>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/account/#operation/alterar-plano-dos-titulares-do-parceiro)
+### Listar titular do parceiro
+```getPartnerClients(filterProfile: FilterProfile, callBack: PagcertoCallBack<SellersList>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/account/#operation/listar-titular-do-parceiro)
 
 ## Métodos de pagamento
 
