@@ -1,6 +1,5 @@
 package br.com.paggcerto.pagcertosdk.rest.account
 
-import br.com.paggcerto.pagcertosdk.model.account.response.Token
 import br.com.paggcerto.pagcertosdk.util.Util
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -12,14 +11,14 @@ internal object AccountClient {
 
     private const val timeOut = 30
 
-    fun getClient(token: Token?): Retrofit{
+    fun getClient(token: String?): Retrofit{
         val okHttpClient = OkHttpClient.Builder()
                 .addInterceptor { chain: Interceptor.Chain ->
                     val newRequest = chain.request()
                             .newBuilder()
 
                     if(token != null){
-                        newRequest.addHeader("Authorization", "Bearer " + token.token)
+                        newRequest.addHeader("Authorization", "Bearer $token")
                     }
 
                     chain.proceed(newRequest.build())

@@ -80,7 +80,7 @@ internal interface PaymentService {
     fun getSplitter(@Path("id") id: String): Call<String>
 
     @GET("transfers/splitters")
-    fun getTransferSplitters(@QueryMap filter: Map<String, String>): Call<String>
+    fun getTransferSplitters(@QueryMap filter: Map<String, String>): Call<String>/*************/
 
     @GET("card-transactions/{nsu}")
     fun getCardTransactions(@Path("nsu") nsu: String, @QueryMap filter: Map<String, String>): Call<String>

@@ -17,7 +17,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.ByteArrayOutputStream
 
-class AccountNetwork(token: Token? = null) {
+class AccountNetwork(token: String? = null) {
 
     private val appService = AccountClient.getClient(token)
 

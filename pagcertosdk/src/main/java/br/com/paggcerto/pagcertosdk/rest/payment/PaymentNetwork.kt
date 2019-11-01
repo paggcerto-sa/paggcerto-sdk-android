@@ -314,7 +314,7 @@ class PaymentNetwork  {
         })
     }
 
-    fun replaceBankslip(number: String, replaceBankSlips: ReplaceBankSlips, callBack: PagcertoCallBack<Payment>){
+    fun replaceBankSlip(number: String, replaceBankSlips: ReplaceBankSlips, callBack: PagcertoCallBack<Payment>){
         val json = gson.toJson(replaceBankSlips)
         val dataObject = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), json)
 

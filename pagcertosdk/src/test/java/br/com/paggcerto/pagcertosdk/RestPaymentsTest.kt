@@ -161,14 +161,14 @@ class RestPaymentsTest: BaseRest() {
     }
 
     @Test
-    fun replaceBankslip(){
+    fun replaceBankSlip(){
         val signal = CountDownLatch(1)
         val method = object{}.javaClass.enclosingMethod.name
         val callBack = object : PagcertoCallBack<Payment>{
             override fun onSuccess(obj: Payment) { assert(signal, method,200) }
             override fun onError(code: Int, message: String) { assert(signal, method, code, message) }
         }
-        paymentNetwork.replaceBankslip("nbN5", ReplaceBankSlips().apply {
+        paymentNetwork.replaceBankSlip("nbN5", ReplaceBankSlips().apply {
             dueDate = "2019-10-12"
             acceptedUntil = 10
         }, callBack)
