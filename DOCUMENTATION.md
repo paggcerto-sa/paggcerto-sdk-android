@@ -118,7 +118,7 @@ Além da gestão de pinpads, o SDK da Pagcerto oferece suporte a comunicação c
 - Recurring
 
 Todas as requisições feitas nas API's são realizadas de forma assíncrona, por isso é necessário instanciar a interface ```PagcertoCallBack<T>``` sempre que for trabalhar com eles.
-Vale ressaltar que só será possível realizar solicitações nas API's caso o usuário tenha especificado o ambiente de desenvolvimento e token em ```PagcertoSDK```.
+Vale ressaltar que só é possível realizar solicitações nas API's caso o usuário tenha especificado o ambiente de desenvolvimento e token em ```PagcertoSDK```.
 
 ## Account API
 
@@ -182,85 +182,150 @@ Essa seção irá abordar os métodos do SDK disponíveis na API de account. A c
 ### Listar titular do parceiro
 ```getPartnerClients(filterProfile: FilterProfile, callBack: PagcertoCallBack<SellersList>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/account/#operation/listar-titular-do-parceiro)
 
-## Métodos de pagamento
+## Payment API
 
-Essa seção irá abordar todos os métodos da SDK disponíveis para a API de pagamentos. 
+Essa seção irá abordar todos os métodos da SDK disponíveis para a API de pagamentos. Todos os métodos de pagamentos da SDK estão disponíveis na Classe ```PaymentNetwork```. 
 
-Todos os métodos de pagamentos da SDK estão disponíveis na Classe ```PaymentNetwork```. 
-Eles trabalham de forma assíncrona, por isso é necessário instanciar a interface ```PaggcertoCallBack<T>``` sempre que for trabalhar com eles. 
-Para utilizar essa classe certifique-se que a SDK foi ativada com o método ```PaggcertoSDK.getInstance().activate()```.
+### Consultar bandeiras de cartão
+```getBin(callBack: PagcertoCallBack<List<Bin>>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/consultar-bandeira-de-cartao)
+### Consultar transações e boletos
+```transactions(filterStatement: FilterTransactionRecord, callBack: PagcertoCallBack<TransactionResponse>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v3/payments/#operation/consultar-transacoes-e-boletos)
+### Detalhes do pagamento
+```findPayment(paymentId: String, callBack: PagcertoCallBack<Payment>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/detalhes-pagamento)
+### Enviar comprovante
+```sendReceipt(nsu: String, sendReceipt: SendReceipt, callBack: PagcertoCallBack<Boolean>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/enviar-comprovante)
+### Gerar PDF do boleto do pagamento
+```pdfBankSlipPayment(paymentId: String, callBack: PagcertoCallBack<ByteArray?>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/gerar-pdf-do-boleto-pagamento)
+### Cancelar transação do cartão
+```cancelCardTransaction(nsu: String, callBack: PagcertoCallBack<Payment>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/cancelar-transacao-cartao)
+### Cancelar pagamento
+```cancelPayment(paymentId: String, callBack: PagcertoCallBack<Payment>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/cancelar-pagamento)
+### Efetuar pagamento (Cartão)
+```payWithCard(pay: Pay, callBack: PagcertoCallBack<Payment>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/efetuar-pagamento-cartao)
+- Esse método é responsável por realizar o pagamento utilizando um cartão de crédito ou débito. 
+- O objeto ```Pay``` pode ser construído a partir de uma série de métodos dispostos pelo ```pinpadService```. 
+- O método ```getCard()``` em ```pinpadService``` retorna o ```PayCard``` que será setado na lista de cards em ```Pay```.
+- Outros objetos como ```PaymentDevice``` e ```MobileDevice``` também podem ser obtidos em ```pinpadService```. 
+- O SDK não disponibiliza um método que retorne as coordenadas geográficas do celular, cabe ao desenvolvedor construí-lo.
 
-```payWithCard(pay: Pagg_Pay, callBack: PaggcertoCallBack<Pagg_Payment>)```
-[Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/efetuar-pagamento-cartao)
-
-Esse método é responsável por realizar o pagamento utilizando um cartão de crédito ou débito. 
-O objeto ```Pagg_Pay``` pode ser construído a partir de uma série de métodos dispostos pelo ```pinpadService```. 
-O método ```getCard()``` em ```PinpadService``` retorna o ```Pagg_Card``` que será setado na lista de cards em ```Pagg_Pay```. 
-Outros objetos como ```Pagg_PaymentDevice``` e ```Pagg_MobileDevice``` também podem ser obtidos por lá. 
-A SDK não disponibiliza um método que retorne as coordenadas geográficas do celular, cabe ao desenvolvedor construí-lo.
-
-```createCard(card: Pagg_Card, callBack: PaggcertoCallBack<Pagg_Card>)```
-[Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/cadastrar-cartao)
-
-```cards(filterCards: Pagg_FilterCards, callBack: PaggcertoCallBack<Pagg_CardList>)```
-[Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/listar-cartoes)
-
-```findCard(idCard: String, callBack: PaggcertoCallBack<Pagg_Card>)```
-[Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/pesquisar-cartao)
-
-```deleteCard(idCard: String, callBack: PaggcertoCallBack<Pagg_Card>)```
-[Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/remover-cartao)
-
-```simulate(simulation: Pagg_Simulation, callBack: PaggcertoCallBack<Pagg_SimulationResult>)```
-[Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/simular-pagamento-cartao)
-
-```sendReceipt(nsu: String, sendReceipt: Pagg_SendReceipt, callBack: PaggcertoCallBack<Boolean>)```
-[Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/enviar-comprovante)
-
-```bankSlipPay(bankSlipsPay: Pagg_BankSlipsPay, callBack: PaggcertoCallBack<Pagg_Payments>)```
-[Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/efetuar-pagamento-boleto)
-
-```replaceBankslip(number: String, replaceBankSlips: Pagg_ReplaceBankSlips, callBack: PaggcertoCallBack<Pagg_Payment>)```
-[Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/substituir-boleto)
-
-```pdfBankSlipPayment(paymentId: String, callBack: PaggcertoCallBack<ByteArray?>)```
-[Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/gerar-pdf-do-boleto-pagamento)
-
-```createSplitter(splitter: Pagg_Splitter, callBack: PaggcertoCallBack<Pagg_Splitter>)```
-[Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/cadastrar-recebedor)
-
-```updateSplitter(id: String, splitter: Pagg_Splitter, callBack: PaggcertoCallBack<Pagg_Splitter>)```
-[Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/atualizar-recebedor)
-
-```splitters(filterSplitter: Pagg_FilterSplitter, callBack: PaggcertoCallBack<Pagg_SplitterList>)```
-[Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/listar-recebedores%20)
-
-```findSplitter(id: String, callBack: PaggcertoCallBack<Pagg_Splitter>)```
-[Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/pesquisar-recebedores%20)
-
-```finalizePayment(paymentId: String, note: String, callBack: PaggcertoCallBack<Pagg_Payment>)```
-[Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/finalizar-pagamento)
-
-```cancelPayment(paymentId: String, callBack: PaggcertoCallBack<Pagg_Payment>)```
-[Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/cancelar-pagamento)
-
-```cancelCardTransaction(nsu: String, callBack: PaggcertoCallBack<Pagg_Payment>)```
-[Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/cancelar-transacao-cartao)
-
-```cancelBankSlip(number: String, cancellationReason: String, callBack: PaggcertoCallBack<Pagg_Payment>)```
-[Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/cancelar-boleto)
-
-```findPayment(paymentId: String, callBack: PaggcertoCallBack<Pagg_Payment>)```
-[Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/detalhes-pagamento)
-
-```payments(filterHistoryPayment: Pagg_FilterHistoryPayment, callBack: PaggcertoCallBack<Pagg_HistoryPayments>)```
-[Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/consultar-pagamentos)
-
-```balance(callBack: PaggcertoCallBack<Pagg_Balance>)```
-[Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/consultar-saldo-de-repasse)
-
-```getTransfersSplitter(filterTransferSplitter: Pagg_FilterTransferSplitter, callBack: PaggcertoCallBack<Pagg_TransfersSplit>)```
-[Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/historico-de-repasses-do-split)
+### Continuar pagamento (Cartão)
+```continuePayment(paymentId: String, pay: Pay, callBack: PagcertoCallBack<Payment>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/continuar-pagamento)
+### Capturar pagamento
+```capturePayment(paymentId: String, capturePayment: CapturePayment, callBack: PagcertoCallBack<Payment>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/capturar-pagamento)
+### Efetuar pagamento (Boleto)
+```bankSlipPay(bankSlipsPay: BankSlipsPay, callBack: PagcertoCallBack<BankSlipPayment>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/efetuar-pagamento-boleto)
+### Finalizar pagamento
+```finalizePayment(paymentId: String, note: String, callBack: PagcertoCallBack<Payment>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/finalizar-pagamento)
+### Cancelar boleto
+```cancelBankSlip(number: String, cancellationReason: String, callBack: PagcertoCallBack<Payment>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/cancelar-boleto)
+### Substituir boleto
+```replaceBankSlip(number: String, replaceBankSlips: ReplaceBankSlips, callBack: PagcertoCallBack<Payment>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/substituir-boleto)
+### Simular pagamento
+```simulate(simulation: Simulation, callBack: PagcertoCallBack<SimulationResult>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/simular-pagamento-cartao)
+### Cadastrar cartão
+```createCard(card: CardRequest, callBack: PagcertoCallBack<CardResponse>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/cadastrar-cartao)
+### Listar cartões
+```cards(filterCards: FilterCards, callBack: PagcertoCallBack<CardResponseList>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/listar-cartoes)
+### Pesquisar cartão
+```findCard(idCard: String, callBack: PagcertoCallBack<CardResponse>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/pesquisar-cartao)
+### Remover cartão
+```deleteCard(idCard: String, callBack: PagcertoCallBack<CardResponse>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/remover-cartao)
+### Cadastrar recebedor
+```createSplitter(splitter: SplitterRequest, callBack: PagcertoCallBack<SplitterResponse>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/cadastrar-recebedor)
+### Atualizar recebedor
+```updateSplitter(id: String, splitter: SplitterRequest, callBack: PagcertoCallBack<SplitterResponse>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/atualizar-recebedor)
+### Listar recebedores
+```splitters(filterSplitter: FilterSplitter, callBack: PagcertoCallBack<SplitterResponseList>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/listar-recebedores%20)
+### Pesquisar recebedor
+```findSplitter(id: String, callBack: PagcertoCallBack<SplitterResponse>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/pesquisar-recebedores%20)
+### Detalhar lançamento de cartão
+```getCardTransactions(nsu: String, installmentNumber: Int, callBack: PagcertoCallBack<CardTransactionLink>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/detalhar-lancamento-de-cartao)
+### Detalhar lançamento de boleto
+```getBankSlipTransaction(bankSlipNumber: String, callBack: PagcertoCallBack<BankSlipTransactionLink>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/detalhar-lancamento-de-boleto)
+### Detalhar lançamento diverso
+```getOtherTransaction(id: String, callBack: PagcertoCallBack<OtherTransactionLink>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/detalhar-lancamento-diverso)
+### Consultar lançamentos futuros do splitter
+```futureTransaction(filterFutureTransaction: FilterFutureTransaction, callBack: PagcertoCallBack<FutureTransaction>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/consultar-lancamentos-futuros-do-splitter)
+### Detalhar lançamento futuro do splitter
+```getFutureTransactionDetail(date: String, filterFutureTransaction: FilterFutureTransaction, callBack: PagcertoCallBack<TransactionsList>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/detalhar-lancamento-do-splitter)
+### Consultar taxa padrão
+```defaultFees(filterFee: FilterFee, callBack: PagcertoCallBack<Fee>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/consultar-taxa-padrao)
+### Consultar taxas do titular
+```fees(callBack: PagcertoCallBack<Fee>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/consultar-taxas-do-titular)
+### Cadastrar taxas (Boleto)
+```registerBankSlipFee(holdersBankSlipList: HoldersBankSlipList, callBack: PagcertoCallBack<Boolean>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/cadastrar-taxas)
+### Atualizar taxas (Boleto)
+```updateBankSlipFee(holdersBankSlipList: HoldersBankSlipList, callBack: PagcertoCallBack<Boolean>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/atualizar-taxas)
+### Remover taxas (Boleto)
+```deleteBankSlipFee(holderIdList: HolderIdList, callBack: PagcertoCallBack<Boolean>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/remover-taxas)
+### Atualizar taxa base (Boleto)
+```updateBankSlipFeeBase(amountTax: Double, callBack: PagcertoCallBack<FeeBase>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/atualizar-taxa-base-boleto)
+### Cadastrar taxas (Cartão)
+```registerCardFee(holderCard: HolderCard, callBack: PagcertoCallBack<Boolean>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/cadastrar-taxas)
+### Atualizar taxa base (Cartão)
+```updateCardFeeBase(brandFees: BrandFees, callBack: PagcertoCallBack<BrandFees>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/atualizar-taxa-base-cartao)
+### Consultar comissão
+```getCommission(filterCommission: FilterComission, callBack: PagcertoCallBack<Commission>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/consultar-comissao)
+### Emitir segunda via de boleto
+```duplicateBankSlip(sellerId: String, bankSlipId: String, callBack: PagcertoCallBack<Payment>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/emiti-segunda-via-de-boleto)
+### Gerar PDF de boleto de múltiplos pagamentos
+```getBankSlipPdfListZip(filterPdfBankSlip: List<String>, callBack: PagcertoCallBack<ByteArray?>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/gerar-pdf-de-boleto-de-multiplos-pagamentos)
+### Gerar PDF de múltiplos boletos
+```getBankSlipPdfList(filterPdfBankSlip: List<String>, callBack: PagcertoCallBack<ByteArray?>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/gerar-pdf-de-multiplos-boletos)
+### Enviar boleto por e-mail
+```sendSingleBankSlipByEmail(bankSlipId: String, email: String, callBack: PagcertoCallBack<Boolean>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/enviar-boleto-por-email)
+### Enviar carnê por e-mail
+```sendMultipleBankSlipByEmail(paymentId: String,  email: String, callBack: PagcertoCallBack<Boolean>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/enviar-carne-por-email)
+### Detalhes do boleto
+```checkoutBankSlipDetail(bankSlipId: String, callBack: PagcertoCallBack<CheckoutBankSlip>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/detalhes-do-boleto)
+### Gerar arquivo PDF do boleto
+```checkoutBankSlipPdf(bankSlipId: String, callBack: PagcertoCallBack<ByteArray?>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/gerar-arquivo-pdf-do-boleto)
+### Detalhes do carnê
+```checkoutBankSlipListDetail(paymentId: String, callBack: PagcertoCallBack<CheckoutBankSlipList>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/detalhes-do-carne)
+### Gerar arquivo PDF do carnê
+```checkoutBankSlipListPdf(paymentId: String, callBack: PagcertoCallBack<ByteArray?>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/gerar-arquivo-pdf-do-carne)
+### Consultar boletos
+```getBankSlips(filterBankSlips: FilterBankSlips, callBack: PagcertoCallBack<BankSlipsList>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/consultar-boletos)
+### Pagamentos por horário
+```paymentsPerHourly(callBack: PagcertoCallBack<StatisticList>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/pagamentos-por-horário)
+### Pagamentos por dia da semana
+```paymentsPerWeekly(callBack: PagcertoCallBack<StatisticList>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/pagamentos-por-dia-da-semana)
+### Pagamentos por mês
+```paymentsPerMonthly(callBack: PagcertoCallBack<StatisticList>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/pagamentos-por-mes)
+### Pagamentos por ano
+```paymentsPerYearly(callBack: PagcertoCallBack<StatisticList>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/pagamentos-por-ano)
+### Estatísticas por método de pagamento
+```statisticsPaymentMethods(callBack: PagcertoCallBack<StatisticPayment>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/estatistica-por-metodo-de-pagamento)
+### Pagamentos com boleto no mês atual
+```paymentsPerBankSlipsCurrentMonth(callBack: PagcertoCallBack<BankSlipPercentages>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/pagamentos-com-boleto-no-mes-atual)
+### Consultar taxa de transferência
+```bankTransferFees(callBack: PagcertoCallBack<TransferFee>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/consultar-taxa-de-transferencia)
+### Histórico de solicitações de antecipações
+```historyAnticipation(filterAnticipation: FilterAnticipation, callBack: PagcertoCallBack<AnticipationHistory>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/historico-de-solicitacoes-de-antecipacoes)
+### Listar transações antecipáveis
+```cardTransactionsAvailable(filterTransaction: FilterTransaction, callBack: PagcertoCallBack<AnticipableTransaction>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/lista-transacoes-antecipaveis)
+### Solicitar antecipação
+```requestAnticipation(transactionsToAnticipate: TransactionsToAnticipate, callBack: PagcertoCallBack<Anticipation>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/solicitar-antecipacao)
+### Listar transações da solicitação
+```anticipationTransactions(anticipationId: String, filterTransaction: FilterTransaction, callBack: PagcertoCallBack<AnticipableTransaction>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/listar-transacoes-da-solicitacao)
+### Aceitar termo
+```acceptTerms(callBack: PagcertoCallBack<Boolean>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/aceitar-termo)
+### Pode antecipar?
+```canAnticipate(callBack: PagcertoCallBack<CanAnticipate>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/pode-antecipar)
+### Solicitar antecipação de todas as transações
+```anticipateAllTransactions(callBack: PagcertoCallBack<Anticipation>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/solicitar-antecipacao-de-todas-as-transacoes)
+### Solicitação em andamento
+```anticipationInProgress(callBack: PagcertoCallBack<Anticipation>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/solicitacao-em-andamento)
+### Detalhes da solicitação
+```anticipationDetail(anticipationId: String, callBack: PagcertoCallBack<Anticipation>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/detalhes-da-solicitacao)
+### Listar transações em andamento
+```transactionsInProgress(filterTransaction: FilterTransaction, callBack: PagcertoCallBack<RequestedCardTransactionsList>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/listar-transacoes-em-andamento)
+### Consultar lançamentos futuros do splitter
+```futureTransactionSplitter(filterSplitter: FilterSplitterTransaction, callBack: PagcertoCallBack<FutureTransaction>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/consultar-lancamentos-futuros-do-splitter)
+### Detalhar lançamento futuro do splitter
+```futureTransactionSplitterDetail(date: String, futureFilterTransaction: FilterSplitterTransaction, callBack: PagcertoCallBack<TransactionsList>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/detalhar-lancamento-do-splitter)
+### Simular liquidação de boleto
+```simulateBankSlipPay(bankSlipsIdList: BankSlipsIdList, callBack: PagcertoCallBack<Boolean>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/simular-liquidacao-de-boleto)
 
 ## Métodos de cobrança
 
