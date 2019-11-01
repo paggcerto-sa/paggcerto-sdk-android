@@ -111,14 +111,14 @@ fun cardTransaction(){
 ```
 ## Rest API
 Além da gestão de pinpads, o SDK da Pagcerto oferece suporte a comunicação com diversas API's da Pagcerto:
-- Account
-- Billing
-- Payment
-- Payment Account
-- Recurring
+- [Account](https://github.com/paggcerto-sa/paggcerto-sdk-android/blob/master/DOCUMENTATION.md#account-api)
+- [Billing](https://github.com/paggcerto-sa/paggcerto-sdk-android/blob/master/DOCUMENTATION.md#billing-api)
+- [Payment](https://github.com/paggcerto-sa/paggcerto-sdk-android/blob/master/DOCUMENTATION.md#payment-api)
+- [Payment Account](https://github.com/paggcerto-sa/paggcerto-sdk-android/blob/master/DOCUMENTATION.md#paymentaccount-api)
+- [Recurring](https://github.com/paggcerto-sa/paggcerto-sdk-android/blob/master/DOCUMENTATION.md#recurring-api)
 
 Todas as requisições feitas nas API's são realizadas de forma assíncrona, por isso é necessário instanciar a interface ```PagcertoCallBack<T>``` sempre que for trabalhar com eles.
-Vale ressaltar que só é possível realizar solicitações nas API's caso o usuário tenha especificado o ambiente de desenvolvimento e token em ```PagcertoSDK```.
+Vale ressaltar que só será possível realizar solicitações nas API's caso o usuário tenha especificado o ambiente de desenvolvimento e token em ```PagcertoSDK```.
 
 ## Account API
 
@@ -184,7 +184,7 @@ Essa seção irá abordar os métodos do SDK disponíveis na API de account. A c
 
 ## Payment API
 
-Essa seção irá abordar todos os métodos da SDK disponíveis para a API de pagamentos. Todos os métodos de pagamentos da SDK estão disponíveis na Classe ```PaymentNetwork```. 
+Essa seção irá abordar todos os métodos do SDK disponíveis para a API de pagamentos. Todos os métodos de pagamentos do SDK estão disponíveis na classe ```PaymentNetwork```. 
 
 ### Consultar bandeiras de cartão
 ```getBin(callBack: PagcertoCallBack<List<Bin>>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/consultar-bandeira-de-cartao)
@@ -327,21 +327,83 @@ Essa seção irá abordar todos os métodos da SDK disponíveis para a API de pa
 ### Simular liquidação de boleto
 ```simulateBankSlipPay(bankSlipsIdList: BankSlipsIdList, callBack: PagcertoCallBack<Boolean>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/payments/#operation/simular-liquidacao-de-boleto)
 
-## Métodos de cobrança
+## Billing API
 
-Essa seção irá abordar todos os métodos da SDK disponíveis para a API de cobrança.
+Essa seção irá abordar todos os métodos do SDK disponíveis para a API de cobrança. Todos os métodos de cobrança do SDK estão disponíveis na classe ```BillingNetwork```. 
 
-De forma semelhante a API de pagamentos, os métodos dessa API estarão disponíveis na classe ```BillingNetwork```.
-Para utilizar essa classe certifique-se que a SDK foi ativada com o método ```PaggcertoSDK.getInstance().activate()```.
+### Gerar cobrança
+```createBilling(billingRequest: BillingRequest, callBack: PagcertoCallBack<Billing>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v1/billing/#operation/gerar-cobranca)
+### Listar cobranças
+```listBillings(filterBilling: FilterBilling, callBack: PagcertoCallBack<ListBillings>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v1/billing/#operation/listar-cobrancas)
+### Pesquisar cobranca
+```getBilling(idBilling: String, callBack: PagcertoCallBack<Billing>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v1/billing/#operation/pesquisar-cobranca)
+### Cancelar cobrança
+```cancelBilling(idBilling: String, callBack: PagcertoCallBack<Boolean>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v1/billing/#operation/cancelar-cobranca)
 
-```createBilling(billingRequest: Pagg_BillingRequest, callBack: PaggcertoCallBack<Pagg_BillingResponse>)```
-[Detalhes](https://desenvolvedor.paggcerto.com.br/v1/billing/#operation/gerar-cobranca)
+## PaymentAccount API
 
-```listBillings(filterBilling: Pagg_FilterBilling, callBack: PaggcertoCallBack<Pagg_BillingsResponse>)```
-[Detalhes](https://desenvolvedor.paggcerto.com.br/v1/billing/#operation/listar-cobrancas)
+Essa seção irá abordar todos os métodos do SDK disponíveis para a API de conta de pagamento. Todos os métodos de conta de pagamento do SDK estão disponíveis na classe ```PaymentAccountNetwork```.
 
-```getBilling(idBilling: String, callBack: PaggcertoCallBack<Pagg_BillingResponse>)```
-[Detalhes](https://desenvolvedor.paggcerto.com.br/v1/billing/#operation/pesquisar-cobranca)
+### Consultar saldo
+```getBalance(callBack: PagcertoCallBack<Balance>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v1/payment-accounts/#operation/consultar-saldo)
+### Consultar valor mínimo
+```minimumAmount(callBack: PagcertoCallBack<Number>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v1/payment-accounts/#operation/consultar-valor-minimo)
+### Listar saldo dos splitters
+```splitterBalance(idList: List<String>, callBack: PagcertoCallBack<BalanceList>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v1/payment-accounts/#operation/listar-saldo-dos-splitters)
+### Consultar configurações
+```getSettings(callBack: PagcertoCallBack<SettingsResponse>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v1/payment-accounts/#operation/consultar-configuracoes)
+### Configurar transferência automática
+```setSettings(settingsRequest: SettingsRequest, callBack: PagcertoCallBack<SettingsResponse>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v1/payment-accounts/#operation/configurar-transferencia-automatica)
+### Configurar transferência automática para splitter
+```setSplitterSettings(settingsRequestList: List<SettingsRequest>, callBack: PagcertoCallBack<List<SettingsResponse>>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v1/payment-accounts/#operation/configurar-transferencia-automatica-para-splitter)
+### Consultar configurações para splitter
+```getSplitterSettings(idSplitter: String, callBack: PagcertoCallBack<SettingsResponse>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v1/payment-accounts/#operation/consultar-configuracoes-para-splitter)
+### Solicitar transferência
+```requestCashOut(cashOutRequest: CashOutRequest, callBack: PagcertoCallBack<CashOutResponse>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v1/payment-accounts/#operation/solicitar-transferencia)
+### Listar transferências
+```listCashOut(filterCashOut: FilterCashOut, callBack: PagcertoCallBack<CashOutList>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v1/payment-accounts/#operation/listar-transferencias)
+### Solicitar transferência para splitter
+```requestCashOutSplitter(cashOutRequest: CashOutSplitterRequest, callBack: PagcertoCallBack<CashOutResponse>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v1/payment-accounts/#operation/solicitar-transferencia-para-splitter)
+### Listar transferências para splitters
+```listCashOutSplitter(filterCashOut: FilterCashOut, callBack: PagcertoCallBack<CashOutList>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v1/payment-accounts/#operation/listar-transferencias-para-splitters)
+### Transferir saldo para splitter
+```transferSplitterCashOut(splitterCashOutRequest: SplitterCashOutRequest, callBack: PagcertoCallBack<CashOutResponse>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v1/payment-accounts/#operation/transferir-saldo-para-splitter)
+### Consultar extrato
+```getStatements(filterStatement: FilterStatement, callBack: PagcertoCallBack<Statement>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v1/payment-accounts/#operation/consultar-extrato)
+### Detalhar extrato
+```transactionDetail(date: String, filterStatementDetail: FilterStatementDetail, callBack: PagcertoCallBack<TransactionsDetailList>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v1/payment-accounts/#operation/detalhar-extrato)
+### Detalhar lançamento da transferência
+```transactionLinkDetail(idTransaction: String, callBack: PagcertoCallBack<TransactionLinkDetail>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v1/payment-accounts/#operation/detalhar-lancamento-da-transferencia)
 
-```cancelBilling(idBilling: String, callBack: PaggcertoCallBack<Boolean>)```
-[Detalhes](https://desenvolvedor.paggcerto.com.br/v1/billing/#operation/cancelar-cobranca)
+## Recurring API
+
+Essa seção irá abordar todos os métodos do SDK disponíveis para a API de recorrência. Todos os métodos de recorrência do SDK estão disponíveis na classe ```RecurringNetwork```.
+
+### Cadastrar configuração
+```registerSettings(recurringSetting: RecurringSetting, callBack: PagcertoCallBack<RecurringSetting>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/recurring/#operation/cadastrar-configuracao)
+### Atualizar configuração
+```updateSettings(recurringSetting: RecurringSetting, callBack: PagcertoCallBack<RecurringSetting>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/recurring/#operation/atualizar-configuracao)
+### Cadastrar contrato
+```registerContract(contract: ContractRequest, callBack: PagcertoCallBack<ContractResponse>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/recurring/#operation/cadastrar-contrato)
+### Atualizar contrato
+```updateContract(contractId: String, contract: ContractRequest, callBack: PagcertoCallBack<ContractResponse>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/recurring/#operation/atualizar-contrato)
+### Listar contratos
+```getContract(filterContract: FilterContract, callBack: PagcertoCallBack<ContractResponseList>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/recurring/#operation/listar-contratos)
+### Pesquisar contrato
+```searchContract(contractId: String, callBack: PagcertoCallBack<ContractResponse>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/recurring/#operation/pesquisar-contrato)
+### Cancelar contrato
+```cancelContract(contractId: String, reason: String, callBack: PagcertoCallBack<ContractResponse>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/recurring/#operation/cancelar-contrato)
+### Pausar contrato
+```pauseContract(contractId: String, pauseUntil: String, callBack: PagcertoCallBack<ContractResponse>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/recurring/#operation/pausar-contrato)
+### Retornar contrato
+```unlockContract(contractId: String, callBack: PagcertoCallBack<ContractResponse>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/recurring/#operation/retornar-contrato)
+### Cadastrar adicional
+```addendumContract(contractId: String, addendums: Addendums, callBack: PagcertoCallBack<ContractResponse>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/recurring/#operation/cadastrar-adicional)
+### Cancelar adicional
+```deleteAddendumContract(contractId: String, addendumId: String, callBack: PagcertoCallBack<ContractResponse>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/recurring/#operation/cancelar-adicional)
+### Listar faturas
+```getInvoices(filterContract: FilterContract, callBack: PagcertoCallBack<InvoicesList>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/recurring/#operation/listar-faturas)
+### Pesquisar faturas
+```searchInvoice(invoiceId: String, callBack: PagcertoCallBack<Invoice>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/recurring/#operation/Pesquisar-faturas)
+### Confirmar pagamento manual de faturas
+```confirmInvoicePayment(invoiceId: String, description: String, callBack: PagcertoCallBack<Invoice>)``` [Detalhes](https://desenvolvedor.paggcerto.com.br/v2/recurring/#operation/confirmar-pagamento-manual-de-faturas)
