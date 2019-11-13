@@ -21,5 +21,5 @@ data class CheckoutBankSlipList (
 	@SerializedName("status") val status : String,
 	@SerializedName("amount") val amount : Number,
 	@SerializedName("hasPending") val hasPending : Boolean,
-	@SerializedName("bankSlip") val bankSlip : List<BankSlip>
+	@SerializedName("bankSlip") val bankSlip : List<BankSlipResponse>
 ): Serializable

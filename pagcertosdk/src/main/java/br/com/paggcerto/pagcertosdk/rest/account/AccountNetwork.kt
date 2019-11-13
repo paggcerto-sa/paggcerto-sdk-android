@@ -615,6 +615,138 @@ class AccountNetwork(token: String? = null) {
         })
     }
 
+    fun createUser(user: UserRequest, callBack: PagcertoCallBack<UserResponse>){
+        val json = gson.toJson(user)
+        val dataObject = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), json)
+
+        appService.create(AccountService::class.java).createUser(dataObject).enqueue(object : Callback<String>{
+            override fun onResponse(call: Call<String>, response: Response<String>) {
+                when(response.code()) {
+                    200 -> callBack.onSuccess(gson.fromJson(response.body(), UserResponse::class.java))
+                    400 -> callBack.onError(response.code(), response.errorBody()?.string() ?: "Erro 400")
+                    422 -> callBack.onError(response.code(), Util.printError(response))
+                    401 -> callBack.onError(response.code(), error401)
+                    403 -> callBack.onError(response.code(), error403)
+                    else -> callBack.onError(response.code(), "$unknownError - Erro ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<String>, t: Throwable) {
+                callBack.onError(-1, connectionError)
+            }
+        })
+    }
+
+
+    fun updateUser(idUser: String, user: UserRequest, callBack: PagcertoCallBack<UserResponse>){
+        val json = gson.toJson(user)
+        val dataObject = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), json)
+
+        appService.create(AccountService::class.java).updateUser(idUser, dataObject).enqueue(object : Callback<String>{
+            override fun onResponse(call: Call<String>, response: Response<String>) {
+                when(response.code()) {
+                    200 -> callBack.onSuccess(gson.fromJson(response.body(), UserResponse::class.java))
+                    400 -> callBack.onError(response.code(), response.errorBody()?.string() ?: "Erro 400")
+                    422 -> callBack.onError(response.code(), Util.printError(response))
+                    401 -> callBack.onError(response.code(), error401)
+                    403 -> callBack.onError(response.code(), error403)
+                    else -> callBack.onError(response.code(), "$unknownError - Erro ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<String>, t: Throwable) {
+                callBack.onError(-1, connectionError)
+            }
+        })
+    }
+
+    fun getUsers(filterUser: FilterUser, callBack: PagcertoCallBack<UserResponseList>){
+        try {
+            var json = gson.toJson(filterUser)
+            json = JSONUtils.removeArrays(JSONObject(json)).toString()
+
+            val retMap = gson.fromJson<Map<String, String>>( json, object : TypeToken<HashMap<String, String>>() {}.type )
+
+            appService.create(AccountService::class.java).getUsers(retMap).enqueue(object : Callback<String>{
+                override fun onResponse(call: Call<String>, response: Response<String>) {
+                    when(response.code()) {
+                        200 -> callBack.onSuccess(gson.fromJson(response.body(), UserResponseList::class.java))
+                        400 -> callBack.onError(response.code(), response.errorBody()?.string() ?: "Erro 400")
+                        422 -> callBack.onError(response.code(), Util.printError(response))
+                        401 -> callBack.onError(response.code(), error401)
+                        403 -> callBack.onError(response.code(), error403)
+                        else -> callBack.onError(response.code(), "$unknownError - Erro ${response.code()}")
+                    }
+                }
+
+                override fun onFailure(call: Call<String>, t: Throwable) {
+                    callBack.onError(-1, connectionError)
+                }
+            })
+
+        }catch (e: Exception){
+            e.printStackTrace()
+            callBack.onError(-1, unknownError)
+        }
+    }
+
+    fun findUser(idUser: String, callBack: PagcertoCallBack<UserResponse>){
+        appService.create(AccountService::class.java).findUser(idUser).enqueue(object : Callback<String>{
+            override fun onResponse(call: Call<String>, response: Response<String>) {
+                when(response.code()) {
+                    200 -> callBack.onSuccess(gson.fromJson(response.body(), UserResponse::class.java))
+                    400 -> callBack.onError(response.code(), response.errorBody()?.string() ?: "Erro 400")
+                    422 -> callBack.onError(response.code(), Util.printError(response))
+                    401 -> callBack.onError(response.code(), error401)
+                    403 -> callBack.onError(response.code(), error403)
+                    else -> callBack.onError(response.code(), "$unknownError - Erro ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<String>, t: Throwable) {
+                callBack.onError(-1, connectionError)
+            }
+        })
+    }
+
+    fun disableUser(idUser: String, callBack: PagcertoCallBack<UserResponse>){
+        appService.create(AccountService::class.java).disableUser(idUser).enqueue(object : Callback<String>{
+            override fun onResponse(call: Call<String>, response: Response<String>) {
+                when(response.code()) {
+                    200 -> callBack.onSuccess(gson.fromJson(response.body(), UserResponse::class.java))
+                    400 -> callBack.onError(response.code(), response.errorBody()?.string() ?: "Erro 400")
+                    422 -> callBack.onError(response.code(), Util.printError(response))
+                    401 -> callBack.onError(response.code(), error401)
+                    403 -> callBack.onError(response.code(), error403)
+                    else -> callBack.onError(response.code(), "$unknownError - Erro ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<String>, t: Throwable) {
+                callBack.onError(-1, connectionError)
+            }
+        })
+    }
+
+    fun enableUser(idUser: String, callBack: PagcertoCallBack<UserResponse>){
+        appService.create(AccountService::class.java).enableUser(idUser).enqueue(object : Callback<String>{
+            override fun onResponse(call: Call<String>, response: Response<String>) {
+                when(response.code()) {
+                    200 -> callBack.onSuccess(gson.fromJson(response.body(), UserResponse::class.java))
+                    400 -> callBack.onError(response.code(), response.errorBody()?.string() ?: "Erro 400")
+                    422 -> callBack.onError(response.code(), Util.printError(response))
+                    401 -> callBack.onError(response.code(), error401)
+                    403 -> callBack.onError(response.code(), error403)
+                    else -> callBack.onError(response.code(), "$unknownError - Erro ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<String>, t: Throwable) {
+                callBack.onError(-1, connectionError)
+            }
+        })
+    }
+
     fun updatePartnerClients(partnerClientRequest: PartnerClientRequest, callBack: PagcertoCallBack<Boolean>){
         val json = gson.toJson(partnerClientRequest)
         val dataObject = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), json)

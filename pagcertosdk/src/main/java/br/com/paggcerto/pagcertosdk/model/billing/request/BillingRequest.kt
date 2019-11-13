@@ -7,6 +7,10 @@ import java.io.Serializable
 
 open class BillingRequest: Serializable {
 
+        @SerializedName("sellingKey")
+        @Expose
+        var sellingKey: String? = null
+
         @SerializedName("fullName")
         @Expose
         var fullName: String? = null

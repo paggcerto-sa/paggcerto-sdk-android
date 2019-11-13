@@ -21,6 +21,6 @@ data class CardRequest (
 	@SerializedName("number") val number : String,
 	@SerializedName("expirationMonth") val expirationMonth : Number,
 	@SerializedName("expirationYear") val expirationYear : Number,
-	@SerializedName("securityCode") val securityCode : Number,
+	@SerializedName("securityCode") val securityCode : String,
 	@SerializedName("invoiceBanese") val invoiceBanese : Boolean?
 ): Serializable

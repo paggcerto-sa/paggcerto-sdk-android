@@ -6,7 +6,7 @@ import br.com.paggcerto.pagcertosdk.model.account.request.Address
 import br.com.paggcerto.pagcertosdk.model.account.request.BankAccount
 import br.com.paggcerto.pagcertosdk.model.account.request.Holder
 import br.com.paggcerto.pagcertosdk.model.account.request.TransferPlan
-import br.com.paggcerto.pagcertosdk.model.account.request.User
+import br.com.paggcerto.pagcertosdk.model.account.request.UserLogin
 import br.com.paggcerto.pagcertosdk.model.account.response.*
 import br.com.paggcerto.pagcertosdk.rest.account.AccountNetwork
 import com.google.gson.Gson
@@ -28,7 +28,7 @@ class RestAccountTest: BaseRest() {
     private val transferPlan by lazy { TransferPlan(null, null, null, anticipated = false, migrate = false) }
     private val address by lazy { Address("", "", "", "", "", "") }
     private val holder by lazy { Holder("", "", " "[0], "", "", "", null) }
-    private val user by lazy { User("", "") }
+    private val user by lazy { UserLogin("", "") }
 
     @Test
     fun signin(){
@@ -401,6 +401,88 @@ class RestAccountTest: BaseRest() {
             override fun onError(code: Int, message: String) { assert(signal, method, code, message) }
         }
         accountNetwork.revokePermission("fsd", ScopesList(emptyList()), callBack)
+        signal.await()
+    }
+
+    @Test
+    fun createUser(){
+        val signal = CountDownLatch(1)
+        val method = object {}.javaClass.enclosingMethod.name
+        val callBack = object : PagcertoCallBack<UserResponse>{
+            override fun onSuccess(obj: UserResponse) { assert(signal, method, 200) }
+            override fun onError(code: Int, message: String) { assert(signal, method, code, message) }
+        }
+        accountNetwork.createUser(UserRequest().apply {
+            email = "createuser@email.com"
+            roleId = "pGB"
+            fullName = "Test email"
+            taxDocument = "285.047.710-91"
+        }, callBack)
+        signal.await()
+    }
+
+    @Test
+    fun updateUser(){
+        val signal = CountDownLatch(1)
+        val method = object {}.javaClass.enclosingMethod.name
+        val callBack = object : PagcertoCallBack<UserResponse>{
+            override fun onSuccess(obj: UserResponse) { assert(signal, method, 200) }
+            override fun onError(code: Int, message: String) { assert(signal, method, code, message) }
+        }
+        accountNetwork.updateUser("P4go", UserRequest().apply {
+            email = "createuser@email.com"
+            roleId = "pGB"
+            fullName = "Test email updated"
+            taxDocument = "285.047.710-91"
+        }, callBack)
+        signal.await()
+    }
+
+    @Test
+    fun getUsers(){
+        val signal = CountDownLatch(1)
+        val method = object {}.javaClass.enclosingMethod.name
+        val callBack = object : PagcertoCallBack<UserResponseList>{
+            override fun onSuccess(obj: UserResponseList) { assert(signal, method, 200) }
+            override fun onError(code: Int, message: String) { assert(signal, method, code, message) }
+        }
+        accountNetwork.getUsers(FilterUser(), callBack)
+        signal.await()
+    }
+
+    @Test
+    fun findUser(){
+        val signal = CountDownLatch(1)
+        val method = object {}.javaClass.enclosingMethod.name
+        val callBack = object : PagcertoCallBack<UserResponse>{
+            override fun onSuccess(obj: UserResponse) { assert(signal, method, 200) }
+            override fun onError(code: Int, message: String) { assert(signal, method, code, message) }
+        }
+        accountNetwork.findUser("P4go", callBack)
+        signal.await()
+    }
+
+    @Test
+    fun disableUser(){
+        val signal = CountDownLatch(1)
+        val method = object {}.javaClass.enclosingMethod.name
+        val callBack = object : PagcertoCallBack<UserResponse>{
+            override fun onSuccess(obj: UserResponse) { assert(signal, method, 200) }
+            override fun onError(code: Int, message: String) { assert(signal, method, code, message) }
+        }
+        accountNetwork.disableUser("P4go", callBack)
+        signal.await()
+    }
+
+    @Test
+    fun enableUser(){
+        val signal = CountDownLatch(1)
+        val method = object {}.javaClass.enclosingMethod.name
+        val callBack = object : PagcertoCallBack<UserResponse>{
+            override fun onSuccess(obj: UserResponse) { assert(signal, method, 200) }
+            override fun onError(code: Int, message: String) { assert(signal, method, code, message) }
+        }
+        accountNetwork.enableUser("P4go", callBack)
         signal.await()
     }
 

@@ -17,6 +17,6 @@ For support, please feel free to contact me at https://www.linkedin.com/in/syeda
 
 data class BankSlipsList (
 
-	@SerializedName("bankSlips") val bankSlips : List<BankSlip>,
-	@SerializedName("count") val count : Int
+    @SerializedName("bankSlips") val bankSlips : List<BankSlipResponse>,
+    @SerializedName("count") val count : Int
 ): Serializable

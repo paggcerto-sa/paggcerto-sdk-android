@@ -20,7 +20,7 @@ data class UserWhoAmI (
     @SerializedName("application") val application : Application,
     @SerializedName("holder") val holder : Holder,
     @SerializedName("account") val account : Account,
-    @SerializedName("user") val user : User,
+    @SerializedName("user") val user : UserResponse,
     @SerializedName("scope") val scope : String?,
     @SerializedName("accessGranted") val accessGranted : Boolean,
     @SerializedName("accessedByHolder") val accessedByHolder : Boolean,

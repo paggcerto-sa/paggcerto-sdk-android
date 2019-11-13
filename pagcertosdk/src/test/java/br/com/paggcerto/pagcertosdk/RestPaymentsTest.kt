@@ -10,8 +10,8 @@ import java.util.concurrent.CountDownLatch
 @Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class RestPaymentsTest: BaseRest() {
     private val paymentNetwork by lazy { PaymentNetwork() }
-    private val address = Address("", "", "", 0, "", null, null, null)
-    private val bankAccount =  BankAccount("", "", 0, "", "", "", null)
+    private val address = AddressResponse("", "", "", 0, "", null, null, null)
+    private val bankAccount =  BankAccountResponse("", "", 0, "", "", "", null)
 
     @Test
     fun getBin(){
@@ -250,7 +250,7 @@ class RestPaymentsTest: BaseRest() {
             override fun onSuccess(obj: CardResponse) { assert(signal, method,200) }
             override fun onError(code: Int, message: String) { assert(signal, method, code, message) }
         }
-        paymentNetwork.createCard(CardRequest("Maria", "5168441223630339" , 12, 2020, 123, false), callBack)
+        paymentNetwork.createCard(CardRequest("Maria", "5168441223630339" , 12, 2020, "123", false), callBack)
         signal.await()
     }
 
@@ -603,6 +603,18 @@ class RestPaymentsTest: BaseRest() {
             override fun onError(code: Int, message: String) { assert(signal, method, code, message) }
         }
         paymentNetwork.getBankSlipPdfList(emptyList(), callBack)
+        signal.await()
+    }
+
+    @Test
+    fun getBankSlipsPDFByNumber(){
+        val signal = CountDownLatch(1)
+        val method = object{}.javaClass.enclosingMethod.name
+        val callBack = object : PagcertoCallBack<ByteArray?>{
+            override fun onSuccess(obj: ByteArray?) { assert(signal, method,200) }
+            override fun onError(code: Int, message: String) { assert(signal, method, code, message) }
+        }
+        paymentNetwork.getBankSlipsPDFByNumber("", callBack)
         signal.await()
     }
 

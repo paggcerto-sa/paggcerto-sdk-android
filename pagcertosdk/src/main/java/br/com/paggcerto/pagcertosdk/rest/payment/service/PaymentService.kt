@@ -136,6 +136,9 @@ internal interface PaymentService {
     @GET("bank-slips/pdf")
     fun getBankSlipsPDFList(@QueryMap filter: Map<String, String>): Call<ResponseBody>
 
+    @GET("bank-slips/pdf/single/{number}")
+    fun getBankSlipsPDFByNumber(@Path("number") number: String): Call<ResponseBody>
+
     @POST("bank-slips/send/single/{bankSlipId}")
     fun sendSingleBankSlipByEmail(@Path("bankSlipId") bankSlipId: String, @Body requestBody: RequestBody): Call<String>
 

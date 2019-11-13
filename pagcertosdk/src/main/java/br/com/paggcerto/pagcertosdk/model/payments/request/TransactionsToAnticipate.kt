@@ -7,5 +7,5 @@ import java.io.Serializable
 class TransactionsToAnticipate: Serializable {
     @SerializedName("cardTransactions")
     @Expose
-    var cardTransactions: List<Long> = emptyList()
+    var cardTransactions: List<Int> = emptyList()
 }

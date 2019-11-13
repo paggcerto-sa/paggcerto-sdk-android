@@ -56,6 +56,24 @@ internal interface AccountService {
     @POST("roles/{roleId}/scopes/revoke")
     fun revokePermission(@Path("roleId") roleId: String, @Body scopes: RequestBody): Call<String>
 
+    @POST("users")
+    fun createUser(@Body requestBody: RequestBody): Call<String>
+
+    @PUT("users/{id}")
+    fun updateUser(@Path("id") idUser: String, @Body requestBody: RequestBody): Call<String>
+
+    @GET("users")
+    fun getUsers(@QueryMap filter: Map<String, String>): Call<String>
+
+    @GET("users/{id}")
+    fun findUser(@Path("id") idUser: String): Call<String>
+
+    @POST("users/{id}/deactivate")
+    fun disableUser(@Path("id") idUser: String): Call<String>
+
+    @POST("users/{id}/activate")
+    fun enableUser(@Path("id") idUser: String): Call<String>
+
     @POST("partner/sellers/presets")
     fun updatePartnerClients(@Body partnerClientRequest: RequestBody): Call<String>
 

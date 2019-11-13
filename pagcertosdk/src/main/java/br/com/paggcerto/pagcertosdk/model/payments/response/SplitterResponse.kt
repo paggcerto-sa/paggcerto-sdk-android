@@ -22,5 +22,5 @@ data class SplitterResponse (
 	@SerializedName("transferDays") val transferDays : Int,
 	@SerializedName("anticipatedTransfer") val anticipatedTransfer : Boolean,
 	@SerializedName("address") val address : AddressSplitter,
-	@SerializedName("bankAccount") val bankAccount : BankAccount
+	@SerializedName("bankAccount") val bankAccount : BankAccountResponse
 ): Serializable

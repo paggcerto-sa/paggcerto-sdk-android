@@ -17,10 +17,10 @@ For support, please feel free to contact me at https://www.linkedin.com/in/syeda
 
 data class Commission (
 
-	@SerializedName("status") val status : String,
-	@SerializedName("transferId") val transferId : String,
-	@SerializedName("amount") val amount : Number,
-	@SerializedName("bankTransferFee") val bankTransferFee : Number,
-	@SerializedName("bankAccount") val bankAccount : BankAccount,
-	@SerializedName("holder") val holder : Holder
+    @SerializedName("status") val status : String,
+    @SerializedName("transferId") val transferId : String,
+    @SerializedName("amount") val amount : Number,
+    @SerializedName("bankTransferFee") val bankTransferFee : Number,
+    @SerializedName("bankAccount") val bankAccount : BankAccountResponse,
+    @SerializedName("holder") val holder : Holder
 ): Serializable

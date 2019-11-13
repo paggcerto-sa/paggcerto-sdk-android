@@ -1,4 +1,4 @@
-package br.com.paggcerto.pagcertosdk.model.account.response
+package br.com.paggcerto.pagcertosdk.model.account.request
 
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
@@ -15,13 +15,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 For support, please feel free to contact me at https://www.linkedin.com/in/syedabsar */
 
 
-data class User (
+data class UserLogin (
 
-	@SerializedName("id") val id : String,
 	@SerializedName("email") val email : String,
-	@SerializedName("fullName") val fullName : String,
-	@SerializedName("taxDocument") val taxDocument : String,
-	@SerializedName("active") val active : Boolean,
-	@SerializedName("createdAt") val createdAt : String,
-	@SerializedName("role") val role : Role?
+	@SerializedName("password") val password : String
 ): Serializable

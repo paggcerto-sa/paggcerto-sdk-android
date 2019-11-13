@@ -1,4 +1,4 @@
-package br.com.paggcerto.pagcertosdk.model.account.request
+package br.com.paggcerto.pagcertosdk.model.payments.response
 
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
@@ -15,8 +15,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 For support, please feel free to contact me at https://www.linkedin.com/in/syedabsar */
 
 
-data class User (
+data class BankAccountResponse (
 
-	@SerializedName("email") val email : String,
-	@SerializedName("password") val password : String
+	@SerializedName("accountNumber") val accountNumber : String,
+	@SerializedName("bankBranchNumber") val bankBranchNumber : String,
+	@SerializedName("bankNumber") val bankNumber : Number,
+	@SerializedName("holderName") val holderName : String,
+	@SerializedName("taxDocument") val taxDocument : String,
+	@SerializedName("type") val type : String,
+	@SerializedName("variation") val variation : String?
 ): Serializable

@@ -4,10 +4,14 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-class FilterPartnerClient: Serializable {
+open class FilterUser: Serializable {
     @SerializedName("fullName")
     @Expose
     var fullName: String? = null
+
+    @SerializedName("email")
+    @Expose
+    var email: String? = null
 
     @SerializedName("taxDocument")
     @Expose

@@ -1215,6 +1215,35 @@ class PaymentNetwork  {
         }
     }
 
+    fun getBankSlipsPDFByNumber(pdfNumber: String, callBack: PagcertoCallBack<ByteArray?>){
+
+        val call: Call<ResponseBody> = appService.create(PaymentService::class.java).getBankSlipsPDFByNumber(pdfNumber)
+        call.enqueue(object : Callback<ResponseBody>{
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                when {
+                    response.code() == 200 -> callBack.onSuccess(response.body()?.bytes())
+                    response.code() == 422 -> {
+                        var errorKey = ""
+                        try {
+                            errorKey = JSONObject(response.errorBody()?.string()).getString("error")
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        } finally {
+                            callBack.onError(response.code(), errorKey)
+                        }
+                    }
+                    response.code() == 401 -> callBack.onError(response.code(), error401)
+                    response.code() == 403 -> callBack.onError(response.code(), error403)
+                    else -> callBack.onError(response.code(), unknownError)
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                callBack.onError(-1, connectionError)
+            }
+        })
+    }
+
     fun sendSingleBankSlipByEmail(bankSlipId: String, email: String, callBack: PagcertoCallBack<Boolean>){
         val json =  "{\n" +
                 "  \"email\": \"$email\"\n" +

@@ -31,5 +31,5 @@ data class Payment (
     @SerializedName("percentSplit") val percentSplit : Number,
     @SerializedName("cardTransactions") val cardTransactions : List<CardTransaction>,
     @SerializedName("splitters") val splitters : List<Splitters>,
-    @SerializedName("bankSlips") val bankSlips : List<BankSlip>?
+    @SerializedName("bankSlips") val bankSlips : List<BankSlipResponse>?
 ): Serializable

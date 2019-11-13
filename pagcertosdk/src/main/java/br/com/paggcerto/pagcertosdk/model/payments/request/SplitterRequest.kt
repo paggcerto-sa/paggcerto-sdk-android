@@ -1,7 +1,5 @@
 package br.com.paggcerto.pagcertosdk.model.payments.request
 
-import br.com.paggcerto.pagcertosdk.model.payments.response.Address
-import br.com.paggcerto.pagcertosdk.model.payments.response.BankAccount
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
@@ -19,9 +17,9 @@ For support, please feel free to contact me at https://www.linkedin.com/in/syeda
 
 data class SplitterRequest (
 
-	@SerializedName("name") val name : String,
-	@SerializedName("transferDays") val transferDays : Int,
-	@SerializedName("anticipatedTransfer") val anticipatedTransfer : Boolean,
-	@SerializedName("address") val address : Address,
-	@SerializedName("bankAccount") val bankAccount : BankAccount
+    @SerializedName("name") val name : String,
+    @SerializedName("transferDays") val transferDays : Int,
+    @SerializedName("anticipatedTransfer") val anticipatedTransfer : Boolean,
+    @SerializedName("address") val address : AddressRequest,
+    @SerializedName("bankAccount") val bankAccount : BankAccountRequest
 ): Serializable

@@ -23,5 +23,5 @@ data class Seller (
 	@SerializedName("phone") val phone : String,
 	@SerializedName("taxDocument") val taxDocument : String,
 	@SerializedName("logo") val logo : String,
-	@SerializedName("address") val address : Address
+	@SerializedName("address") val address : AddressResponse
 ): Serializable

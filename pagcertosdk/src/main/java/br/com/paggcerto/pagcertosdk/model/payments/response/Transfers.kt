@@ -21,7 +21,7 @@ data class Transfers (
     @SerializedName("splitterId") val splitterId : String,
     @SerializedName("amount") val amount : Number,
     @SerializedName("bankTransferFee") val bankTransferFee : Number,
-    @SerializedName("bankAccount") val bankAccount : BankAccount,
+    @SerializedName("bankAccount") val bankAccount : BankAccountResponse,
     @SerializedName("status") val status : String,
     @SerializedName("createdAt") val createdAt : String
 ): Serializable

@@ -17,6 +17,6 @@ For support, please feel free to contact me at https://www.linkedin.com/in/syeda
 
 data class CheckoutBankSlip (
 
-	@SerializedName("bankSlip") val bankSlip : BankSlip,
-	@SerializedName("seller") val seller : Seller
+    @SerializedName("bankSlip") val bankSlip : BankSlipResponse,
+    @SerializedName("seller") val seller : Seller
 ): Serializable

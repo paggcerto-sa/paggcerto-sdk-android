@@ -1,4 +1,4 @@
-package br.com.paggcerto.pagcertosdk.model.payments.response
+package br.com.paggcerto.pagcertosdk.model.account.response
 
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
@@ -15,14 +15,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 For support, please feel free to contact me at https://www.linkedin.com/in/syedabsar */
 
 
-data class Address (
+data class UserResponse (
 
-	@SerializedName("district") val district : String,
-	@SerializedName("line1") val line1 : String,
-	@SerializedName("line2") val line2 : String?,
-	@SerializedName("streetNumber") val streetNumber : Number,
-	@SerializedName("zipCode") val zipCode : String,
-	@SerializedName("cityCode") val cityCode : Number?,
-	@SerializedName("city") val city : City?,
-	@SerializedName("state") val state : String?
+	@SerializedName("id") val id : String,
+	@SerializedName("email") val email : String,
+	@SerializedName("fullName") val fullName : String,
+	@SerializedName("taxDocument") val taxDocument : String,
+	@SerializedName("active") val active : Boolean,
+	@SerializedName("createdAt") val createdAt : String,
+	@SerializedName("role") val role : Role?
 ): Serializable

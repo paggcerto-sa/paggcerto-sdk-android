@@ -15,7 +15,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 For support, please feel free to contact me at https://www.linkedin.com/in/syedabsar */
 
 
-data class BankSlip (
+data class BankSlipResponse (
 
 	@SerializedName("id") val id : String?,
 	@SerializedName("number") val number : Number?,

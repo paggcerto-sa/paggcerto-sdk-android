@@ -15,13 +15,14 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 For support, please feel free to contact me at https://www.linkedin.com/in/syedabsar */
 
 
-data class BankAccount (
+data class AddressResponse (
 
-	@SerializedName("accountNumber") val accountNumber : String,
-	@SerializedName("bankBranchNumber") val bankBranchNumber : String,
-	@SerializedName("bankNumber") val bankNumber : Number,
-	@SerializedName("holderName") val holderName : String,
-	@SerializedName("taxDocument") val taxDocument : String,
-	@SerializedName("type") val type : String,
-	@SerializedName("variation") val variation : String?
+	@SerializedName("district") val district : String,
+	@SerializedName("line1") val line1 : String,
+	@SerializedName("line2") val line2 : String?,
+	@SerializedName("streetNumber") val streetNumber : Number,
+	@SerializedName("zipCode") val zipCode : String,
+	@SerializedName("cityCode") val cityCode : Number?,
+	@SerializedName("city") val city : City?,
+	@SerializedName("state") val state : String?
 ): Serializable

@@ -20,7 +20,7 @@ data class CreateAccountRequest (
     @SerializedName("holder") val holder : Holder,
     @SerializedName("address") val address : Address,
     @SerializedName("bankAccount") val bankAccount : BankAccount,
-    @SerializedName("user") val user : User,
+    @SerializedName("user") val user : UserLogin,
     @SerializedName("businessActivityId") val businessActivityId : String,
     @SerializedName("marketingMediaId") val marketingMediaId : String?,
     @SerializedName("transferPlan") val transferPlan : TransferPlan,
