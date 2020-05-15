@@ -55,7 +55,7 @@ class RestRecurringTest: BaseRest() {
         val cardConfiguration = CardConfiguration(null, "", 0, 0, 0, 0, 0, 0, 0, "", "", "")
         val bankSlipConfiguration = BankSlipConfiguration(0, 0, 0, "", "", "")
         val paymentConfiguration = PaymentConfiguration(0, "", cardConfiguration, bankSlipConfiguration)
-        val customer = Customer("", "", "", "")
+        val customer = Customer("", "", "", "", null, null, null, null, null)
         val contractRequest = ContractRequest("", "", paymentConfiguration, customer, "", null, "", false, null, emptyList())
 
         recurringNetwork.registerContract(contractRequest, callBack)
@@ -73,7 +73,7 @@ class RestRecurringTest: BaseRest() {
         val cardConfiguration = CardConfiguration(null, "", 0, 0, 0, 0, 0, 0, 0, "", "", "")
         val bankSlipConfiguration = BankSlipConfiguration(0, 0, 0, "", "", "")
         val paymentConfiguration = PaymentConfiguration(0, "", cardConfiguration, bankSlipConfiguration)
-        val customer = Customer("", "", "", "")
+        val customer = Customer("", "", "", "", null, null, null, null, null)
         val contractRequest = ContractRequest("", "", paymentConfiguration, customer, "", null, "", false, null, emptyList())
 
         recurringNetwork.updateContract("", contractRequest, callBack)

@@ -2,7 +2,9 @@ package br.com.paggcerto.pagcertosdk
 
 import br.com.paggcerto.pagcertosdk.model.payments.request.*
 import br.com.paggcerto.pagcertosdk.model.payments.response.*
+import br.com.paggcerto.pagcertosdk.model.recurring.request.Customer
 import br.com.paggcerto.pagcertosdk.rest.payment.PaymentNetwork
+import com.google.gson.Gson
 import org.junit.Test
 import org.mockito.Mockito.mock
 import java.util.concurrent.CountDownLatch
@@ -34,6 +36,18 @@ class RestPaymentsTest: BaseRest() {
             override fun onError(code: Int, message: String) { assert(signal, method, code, message) }
         }
         paymentNetwork.payWithCard(mock(Pay::class.java), callBack)
+        signal.await()
+    }
+
+    @Test
+    fun payWithCardOnline(){
+        val signal = CountDownLatch(1)
+        val method = object{}.javaClass.enclosingMethod.name
+        val callBack = object : PagcertoCallBack<Payment>{
+            override fun onSuccess(obj: Payment) { assert(signal, method,200) }
+            override fun onError(code: Int, message: String) { assert(signal, method, code, message) }
+        }
+        paymentNetwork.payWithCardOnline(mock(PayV3::class.java), callBack)
         signal.await()
     }
 
@@ -290,29 +304,29 @@ class RestPaymentsTest: BaseRest() {
         signal.await()
     }
 
-    @Test
-    fun createSplitter(){
-        val signal = CountDownLatch(1)
-        val method = object{}.javaClass.enclosingMethod.name
-        val callBack = object : PagcertoCallBack<SplitterResponse>{
-            override fun onSuccess(obj: SplitterResponse) { assert(signal, method,200) }
-            override fun onError(code: Int, message: String) { assert(signal, method, code, message) }
-        }
-        paymentNetwork.createSplitter(SplitterRequest("Zé Um", 32, false, address, bankAccount), callBack)
-        signal.await()
-    }
-
-    @Test
-    fun updateSplitter(){
-        val signal = CountDownLatch(1)
-        val method = object{}.javaClass.enclosingMethod.name
-        val callBack = object : PagcertoCallBack<SplitterResponse>{
-            override fun onSuccess(obj: SplitterResponse) { assert(signal, method,200) }
-            override fun onError(code: Int, message: String) { assert(signal, method, code, message) }
-        }
-        paymentNetwork.updateSplitter("xnlv", SplitterRequest("", 0, false, address, bankAccount), callBack)
-        signal.await()
-    }
+//    @Test
+//    fun createSplitter(){
+//        val signal = CountDownLatch(1)
+//        val method = object{}.javaClass.enclosingMethod.name
+//        val callBack = object : PagcertoCallBack<SplitterResponse>{
+//            override fun onSuccess(obj: SplitterResponse) { assert(signal, method,200) }
+//            override fun onError(code: Int, message: String) { assert(signal, method, code, message) }
+//        }
+//        paymentNetwork.createSplitter(SplitterRequest("Zé Um", 32, false, address, bankAccount), callBack)
+//        signal.await()
+//    }
+//
+//    @Test
+//    fun updateSplitter(){
+//        val signal = CountDownLatch(1)
+//        val method = object{}.javaClass.enclosingMethod.name
+//        val callBack = object : PagcertoCallBack<SplitterResponse>{
+//            override fun onSuccess(obj: SplitterResponse) { assert(signal, method,200) }
+//            override fun onError(code: Int, message: String) { assert(signal, method, code, message) }
+//        }
+//        paymentNetwork.updateSplitter("xnlv", SplitterRequest("", 0, false, address, bankAccount), callBack)
+//        signal.await()
+//    }
 
     @Test
     fun splitters(){
@@ -892,5 +906,70 @@ class RestPaymentsTest: BaseRest() {
         }
         paymentNetwork.simulateBankSlipPay(BankSlipsIdList(listOf("xW91")), callBack)
         signal.await()
+    }
+
+    @Test
+    fun categoriesProduct(){
+        val signal = CountDownLatch(1)
+        val method = object{}.javaClass.enclosingMethod.name
+        val callBack = object : PagcertoCallBack<CategoriesProductList>{
+            override fun onSuccess(obj: CategoriesProductList) { assert(signal, method,200) }
+            override fun onError(code: Int, message: String) { assert(signal, method, code, message) }
+        }
+        paymentNetwork.categoriesProduct(callBack)
+        signal.await()
+    }
+
+    @Test
+    fun paymentOnline(){
+        val signal = CountDownLatch(1)
+        val method = object{}.javaClass.enclosingMethod.name
+        val callBack = object : PagcertoCallBack<CategoriesProductList>{
+            override fun onSuccess(obj: CategoriesProductList) {
+//                assert(signal, method,200)
+                efetuePayment(obj.categoriesProduct[0])
+            }
+            override fun onError(code: Int, message: String) { assert(signal, method, code, message) }
+        }
+        paymentNetwork.categoriesProduct(callBack)
+        signal.await()
+    }
+
+    private fun efetuePayment(categoriesProduct: CategoriesProduct) {
+        val amount = 15.0
+
+        val listPayCard = listOf(PayCard().apply {
+            amountPaid = amount
+            credit = true
+            expirationMonth = 12
+            expirationYear = 2020
+            holderName = "holdername"
+            installments = 1
+            number = "349881342411264"
+            securityCode = "1234"
+        })
+
+        val mobileDevice = MobileDevice("5.5.1", "samsung", "SM-G930F", "8.0.0", 26)
+        val customer = Customer("Breno Cruz Barros", "050.068.375-19", "brenocruzb@gmail.com")
+        val shoppingCarts = listOf(ShoppingCarts(null, null, categoriesProduct.code, categoriesProduct.name, null, amount, null, 1, null))
+
+        val pay = PayV3().apply {
+            this.amount = amount
+            this.cards = listPayCard
+            this.mobileDevice = mobileDevice
+            this.customer = customer
+            this.shoppingCarts = shoppingCarts
+        }
+
+        paymentNetwork.payWithCardOnline(pay, object : PagcertoCallBack<Payment>{
+            override fun onSuccess(obj: Payment) {
+                println(Gson().toJson(obj))
+            }
+
+            override fun onError(code: Int, message: String) {
+                println(message)
+            }
+
+        })
     }
 }

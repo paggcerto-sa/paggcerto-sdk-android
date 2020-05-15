@@ -1,5 +1,9 @@
 package br.com.paggcerto.pagcertosdk.model.recurring.request
 
+import br.com.paggcerto.pagcertosdk.model.account.request.Address
+import br.com.paggcerto.pagcertosdk.model.payments.request.AddressCard
+import br.com.paggcerto.pagcertosdk.model.payments.request.AddressRequest
+import br.com.paggcerto.pagcertosdk.model.payments.response.AddressSplitter
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
@@ -19,6 +23,13 @@ data class Customer (
 
 	@SerializedName("name") val name : String,
 	@SerializedName("taxDocument") val taxDocument : String,
-	@SerializedName("mobile") val mobile : String,
-	@SerializedName("email") val email : String
+	@SerializedName("email") val email : String,
+
+	@SerializedName("phone") val phone : String? = null,
+	@SerializedName("birthDate") val birthDate : String? = null,
+	@SerializedName("createdAt") val createdAt : String? = null,
+	@SerializedName("billingAddress") val billingAddress : AddressCard? = null,
+	@SerializedName("shippingAddress") val shippingAddress : AddressCard? = null,
+
+	@SerializedName("mobile") val mobile : String? = null
 ): Serializable

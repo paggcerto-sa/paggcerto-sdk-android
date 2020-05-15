@@ -38,7 +38,10 @@ class RestAccountTest: BaseRest() {
             override fun onSuccess(obj: Token) { assert(signal, method,200) }
             override fun onError(code: Int, message: String) { assert(signal, method, code, message) }
         }
-        accountNetwork.signin(applicationId, LoginForm(), callBack)
+        accountNetwork.signin(applicationId, LoginForm().apply {
+            login = "elder@email.com"
+            password = "1234567@"
+        }, callBack)
         signal.await()
     }
 

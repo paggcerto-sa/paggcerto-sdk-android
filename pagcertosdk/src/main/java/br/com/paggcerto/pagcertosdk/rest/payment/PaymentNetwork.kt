@@ -81,6 +81,51 @@ class PaymentNetwork  {
         })
     }
 
+    fun payWithCardOnline(pay: PayV3, callBack: PagcertoCallBack<Payment>){
+        val json = gson.toJson(pay)
+        val dataObject = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), json)
+
+        val appService = PaymentV3Client.getClient(Token(PagcertoSDK.token))
+        val call = appService.create(PaymentV3Service::class.java).payWithCardOnline(dataObject)
+        call.enqueue(object : Callback<String>{
+            override fun onResponse(call: Call<String>, response: Response<String>) {
+                when {
+                    response.code() == 200 -> callBack.onSuccess(gson.fromJson(response.body(), Payment::class.java))
+                    response.code() == 422 -> callBack.onError(response.code(), printError(response))
+                    response.code() == 400 -> callBack.onError(response.code(), response.errorBody()?.string() ?: "Erro 400")
+                    response.code() == 401 -> callBack.onError(response.code(), error401)
+                    response.code() == 403 -> callBack.onError(response.code(), error403)
+                    else -> callBack.onError(response.code(), unknownError)
+                }
+            }
+
+            override fun onFailure(call: Call<String>, t: Throwable) {
+                callBack.onError(-1, connectionError)
+            }
+        })
+    }
+
+    fun categoriesProduct(callBack: PagcertoCallBack<CategoriesProductList>){
+        val appService = PaymentV3Client.getClient(Token(PagcertoSDK.token))
+        val call = appService.create(PaymentV3Service::class.java).categoriesProduct()
+        call.enqueue(object : Callback<String>{
+            override fun onResponse(call: Call<String>, response: Response<String>) {
+                when {
+                    response.code() == 200 -> callBack.onSuccess(gson.fromJson(response.body(), CategoriesProductList::class.java))
+                    response.code() == 422 -> callBack.onError(response.code(), printError(response))
+                    response.code() == 400 -> callBack.onError(response.code(), response.errorBody()?.string() ?: "Erro 400")
+                    response.code() == 401 -> callBack.onError(response.code(), error401)
+                    response.code() == 403 -> callBack.onError(response.code(), error403)
+                    else -> callBack.onError(response.code(), unknownError)
+                }
+            }
+
+            override fun onFailure(call: Call<String>, t: Throwable) {
+                callBack.onError(-1, connectionError)
+            }
+        })
+    }
+
     fun getTransferDays(callBack: PagcertoCallBack<TransferDays>){
         val call = appService.create(PaymentService::class.java).getTransferDays()
         call.enqueue(object : Callback<String>{
