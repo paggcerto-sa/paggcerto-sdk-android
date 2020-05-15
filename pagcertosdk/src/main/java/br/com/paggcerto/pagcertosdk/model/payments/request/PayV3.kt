@@ -7,8 +7,9 @@ import br.com.paggcerto.pagcertosdk.model.payments.response.Splitters
 import br.com.paggcerto.pagcertosdk.model.recurring.request.Customer
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
-class PayV3 {
+class PayV3: Serializable {
     @SerializedName("sellingKey")
     @Expose
     var sellingKey: String? = null

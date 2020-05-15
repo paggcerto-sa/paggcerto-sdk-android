@@ -1,6 +1,7 @@
 package br.com.paggcerto.pagcertosdk.model.payments.request
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class AddressCard (
 
@@ -11,4 +12,4 @@ data class AddressCard (
     @SerializedName("city") val city : String,
     @SerializedName("state") val state : String,
     @SerializedName("country") val country : String
-)
+): Serializable

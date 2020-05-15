@@ -1,9 +1,6 @@
 package br.com.paggcerto.pagcertosdk.model.recurring.request
 
-import br.com.paggcerto.pagcertosdk.model.account.request.Address
 import br.com.paggcerto.pagcertosdk.model.payments.request.AddressCard
-import br.com.paggcerto.pagcertosdk.model.payments.request.AddressRequest
-import br.com.paggcerto.pagcertosdk.model.payments.response.AddressSplitter
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
